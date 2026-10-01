@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Modelltest Lesen 11: Digitaler TestDaF (Übung)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700\&family=Literata:opsz,wght@7..72,400;7..72,600\&display=swap">
+<style>
+:root{
+ --paper:#EDF1F4;--sheet:#FFFFFF;--ink:#18263A;--ink-soft:#4B5C71;--rule:#D2DBE3;--rule-strong:#A3B2C1;
+ --pen:#2346A6;--on-pen:#FFFFFF;--pen-wash:#E3E9F8;
+ --marker:#FFE27A;--marker-ink:#18263A;
+ --alert:#B3261E;--ok:#1D7443;--ok-wash:#E1F1E7;--bad-wash:#FAE6E4;
+ --scrim:rgba(12,18,26,.55);
+ --font-read:"Literata",Georgia,"Times New Roman",serif;
+ --font-ui:"Atkinson Hyperlegible","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ color-scheme:light;
+ box-sizing:border-box;
+ padding-top:env(safe-area-inset-top,0px);
+ padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+ :root:not([data-theme="light"]){
+ --paper:#0E1319;--sheet:#161D25;--ink:#E3E9F0;--ink-soft:#9DAEC1;--rule:#27323F;--rule-strong:#44536A;
+ --pen:#8EA8FF;--on-pen:#0B1017;--pen-wash:#1B2643;
+ --marker:#6B5911;--marker-ink:#FFF4CC;
+ --alert:#FF8E84;--ok:#6CD197;--ok-wash:#132C1F;--bad-wash:#361C1A;
+ --scrim:rgba(0,0,0,.65);
+ color-scheme:dark;
+ }
+}
+:root[data-theme="dark"]{
+ --paper:#0E1319;--sheet:#161D25;--ink:#E3E9F0;--ink-soft:#9DAEC1;--rule:#27323F;--rule-strong:#44536A;
+ --pen:#8EA8FF;--on-pen:#0B1017;--pen-wash:#1B2643;
+ --marker:#6B5911;--marker-ink:#FFF4CC;
+ --alert:#FF8E84;--ok:#6CD197;--ok-wash:#132C1F;--bad-wash:#361C1A;
+ --scrim:rgba(0,0,0,.65);
+ color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{background:var(--paper);scroll-padding-top:calc(env(safe-area-inset-top,0px) + 130px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-ui);font-size:17px;line-height:1.5}
+a{color:var(--pen)}
+:focus-visible{outline:3px solid var(--pen);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1180px;margin:0 auto;padding-left:20px;padding-right:20px}
+h2{font-size:1.05rem;margin:0 0 12px}
+
+/* Buttons */
+.btn{font:inherit;font-weight:700;font-size:1rem;line-height:1.2;border-radius:4px;padding:12px 22px;border:2px solid transparent;cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--pen);color:var(--on-pen)}
+.btn.primary:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule-strong)}
+.btn.ghost:hover{border-color:var(--pen)}
+.btn.small{padding:6px 12px;font-size:.9rem}
+.mobile-only{display:none}
+
+/* Answer-sheet bubble */
+.bubble{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--rule-strong);background:var(--sheet);margin-top:1px;transition:background-color .12s,border-color .12s}
+input:checked + .bubble{background:var(--pen);border-color:var(--pen);box-shadow:inset 0 0 0 3px var(--sheet)}
+input:focus-visible + .bubble{outline:3px solid var(--pen);outline-offset:2px}
+.opt input,.mode-opt input,.g-cell input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+
+/* Start */
+.start{padding-top:56px;padding-bottom:72px;max-width:860px}
+.hero h1{font-family:var(--font-read);font-weight:600;font-size:clamp(2.6rem,8vw,4.4rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 18px}
+.lede{font-size:1.15rem;max-width:56ch;color:var(--ink-soft);margin:0 0 44px}
+.plan-list{list-style:none;padding:0;margin:0 0 44px;border-top:1px solid var(--rule)}
+.plan-row{display:grid;grid-template-columns:2.2rem minmax(0,1fr) auto;grid-template-areas:"n name meta" "n bar bar";column-gap:12px;row-gap:8px;padding:13px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.plan-n{grid-area:n;font-family:var(--font-read);font-size:1.3rem;font-weight:600;color:var(--pen);line-height:1}
+.plan-name{grid-area:name;font-weight:700}
+.plan-meta{grid-area:meta;color:var(--ink-soft);font-variant-numeric:tabular-nums;font-size:.95rem;white-space:nowrap}
+.plan-bar{grid-area:bar;height:6px;background:var(--pen-wash);border-radius:3px;overflow:hidden}
+.plan-bar>span{display:block;height:100%;background:var(--pen);border-radius:3px}
+.mode{margin:0 0 32px}
+.mode-opt{position:relative;display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--rule);cursor:pointer;max-width:64ch}
+.mode-opt:last-child{border-bottom:1px solid var(--rule)}
+.mode-opt small{display:block;color:var(--ink-soft);font-size:.95rem}
+.fine{font-size:.92rem;color:var(--ink-soft);max-width:64ch;margin:28px 0 0}
+
+/* Top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--rule)}
+.topbar-in{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:10px;padding-bottom:8px}
+.tb-left{display:flex;align-items:center;gap:10px;font-size:.95rem;min-width:0}
+.tb-sep{width:1px;height:16px;background:var(--rule-strong)}
+.tb-right{display:flex;align-items:center;gap:12px}
+.clock{font-weight:700;font-size:1.3rem;font-variant-numeric:tabular-nums;min-width:4.4ch;text-align:right}
+.clock.warn{color:var(--alert)}
+.practice-tag{font-size:.9rem;color:var(--ink-soft)}
+.track{display:flex;gap:4px;padding-bottom:10px}
+.seg{flex-shrink:1;flex-basis:0;height:6px;background:var(--pen-wash);border-radius:3px;overflow:hidden}
+.seg .fill{display:block;height:100%;width:0;background:var(--pen);transition:width .3s linear}
+.seg.done .fill{width:100%;background:var(--rule-strong)}
+.seg.now .fill{width:100%}
+.seg.now.warn .fill{background:var(--alert)}
+
+/* Task shell */
+.task{padding-top:24px;padding-bottom:56px}
+.task-title{font-family:var(--font-read);font-weight:600;font-size:clamp(1.45rem,3.2vw,1.95rem);letter-spacing:-.01em;line-height:1.2;margin:0 0 12px}
+.instr{border-left:3px solid var(--pen);padding:2px 0 2px 14px;margin:0 0 24px;color:var(--ink-soft);max-width:72ch}
+.instr p{margin:0 0 3px}
+.split{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:32px;align-items:start}
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:clamp(18px,3vw,34px)}
+.sheet.solo{max-width:860px}
+.text-title{font-family:var(--font-read);font-size:1.4rem;font-weight:600;line-height:1.25;margin:0 0 14px}
+.byline{font-size:.92rem;color:var(--ink-soft);margin:-6px 0 16px}
+.reading{font-family:var(--font-read);font-size:1.06rem;line-height:1.78;max-width:68ch}
+.reading p{margin:0 0 1em;hyphens:auto}
+.reading p:last-child{margin-bottom:0}
+.pnum{font-family:var(--font-ui);font-weight:700;color:var(--pen);margin-right:3px}
+.answers{padding:4px 2px}
+.pane-note{color:var(--ink-soft);font-size:.95rem;margin:0 0 14px}
+@media (min-width:900px){
+ .answers{position:sticky;top:calc(env(safe-area-inset-top,0px) + 86px);max-height:calc(100vh - 104px);max-height:calc(100dvh - 104px);overflow:auto;padding-right:10px}
+}
+.pane-switch{display:none}
+.task-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:36px;padding-top:20px;border-top:1px solid var(--rule);flex-wrap:wrap}
+.nav-note{color:var(--ink-soft);font-size:.92rem}
+
+/* Questions */
+.q{border-top:1px solid var(--rule);padding:16px 0 12px}
+.q:first-child{border-top:0;padding-top:0}
+.q-stem{font-weight:700;margin:0 0 8px;display:flex;gap:10px}
+.q-n{flex:none;font-family:var(--font-read);font-weight:600;color:var(--pen);min-width:1.3em}
+.opt{position:relative;display:flex;gap:12px;align-items:flex-start;padding:8px;margin:0 -8px;border-radius:4px;cursor:pointer}
+.opt:hover{background:var(--pen-wash)}
+.opt:hover .bubble{border-color:var(--pen)}
+.sel{width:100%;font:inherit;color:var(--ink);background:var(--sheet);border:1px solid var(--rule-strong);border-radius:4px;padding:10px 12px}
+
+/* Gap text */
+.gap{display:inline-flex;align-items:baseline;gap:3px;white-space:nowrap}
+.gap-n{font-family:var(--font-ui);font-size:.75rem;font-weight:700;color:var(--pen)}
+.gap select{font-family:var(--font-ui);font-size:1rem;color:var(--ink);background:var(--pen-wash);border:0;border-bottom:2px solid var(--pen);border-radius:3px 3px 0 0;padding:2px 4px;max-width:100%;cursor:pointer}
+
+/* Ordering */
+.order{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.col-h{font-size:1rem;margin:0 0 12px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.slots{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.slot{width:100%;display:flex;gap:12px;align-items:flex-start;text-align:left;font:inherit;color:var(--ink);background:transparent;border:2px dashed var(--rule-strong);border-radius:6px;padding:12px 14px;min-height:64px;cursor:pointer}
+.slot.fixed{border-style:solid;border-color:var(--rule);background:var(--sheet);cursor:default}
+.slot.filled{border-style:solid;border-color:var(--pen);background:var(--sheet)}
+.slot.target{border-color:var(--pen);background:var(--pen-wash)}
+.slot-n{flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--pen);color:var(--pen);display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.slot-empty{color:var(--ink-soft);font-style:italic;align-self:center}
+.reading-sm{font-family:var(--font-read);font-size:.98rem;line-height:1.62}
+.hint{color:var(--ink-soft);font-size:.95rem;margin:-4px 0 12px}
+.pool{display:grid;gap:10px}
+.chunk{display:flex;gap:12px;align-items:flex-start;text-align:left;font:inherit;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:12px 14px;cursor:pointer}
+.chunk:hover{border-color:var(--pen)}
+.chunk.armed{outline:3px solid var(--pen);outline-offset:0;background:var(--pen-wash)}
+.chunk.used{opacity:.55}
+.chunk.used.armed{opacity:1}
+.chunk-tag{flex:none;font-weight:700;color:var(--pen);font-family:var(--font-ui);min-width:1em}
+.chunk-where{display:block;font-family:var(--font-ui);font-size:.85rem;color:var(--ink-soft);margin-top:4px}
+
+/* Speech acts */
+.marker{display:inline-grid;place-items:center;min-width:1.55em;height:1.55em;padding:0 .3em;border-radius:4px;background:var(--pen);color:var(--on-pen);font-family:var(--font-ui);font-weight:700;font-size:.78rem;line-height:1;vertical-align:.12em;margin-right:3px}
+
+/* Categories */
+.grow{border-top:1px solid var(--rule);padding:14px 0}
+.grow:first-child{border-top:0;padding-top:0}
+.g-stem{font-weight:700;display:flex;gap:10px;margin:0 0 10px}
+.g-cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.g-cell{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;padding:7px 2px;border-radius:4px;cursor:pointer;text-align:center}
+.g-cell:hover{background:var(--pen-wash)}
+.g-cell:hover .bubble{border-color:var(--pen)}
+.g-lab{font-size:.84rem;color:var(--ink-soft);line-height:1.2}
+input:checked ~ .g-lab{color:var(--ink);font-weight:700}
+
+/* Pair */
+.pcols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.pcol{border:1px solid var(--rule-strong);border-radius:6px;padding:12px;background:var(--sheet)}
+.pcol-h{font-size:.95rem;margin:0;display:flex;justify-content:space-between;gap:8px}
+.count{font-weight:400;color:var(--ink-soft);font-variant-numeric:tabular-nums;font-size:.92rem}
+.pslot{display:flex;justify-content:space-between;gap:8px;width:100%;min-height:48px;border-radius:4px;padding:8px 10px;margin-top:8px;font:inherit;font-size:.95rem;text-align:left}
+.pslot.empty{border:2px dashed var(--rule);color:var(--ink-soft);font-style:italic;align-items:center}
+.pslot.filled{border:2px solid var(--pen);background:var(--pen-wash);color:var(--ink);cursor:pointer}
+.px{color:var(--ink-soft);flex:none}
+.plist{list-style:none;padding:0;margin:0}
+.pst{border-top:1px solid var(--rule);padding:12px 0}
+.pst p{margin:0 0 8px}
+.pst.assigned p{color:var(--ink-soft)}
+.pbtns{display:flex;gap:8px;flex-wrap:wrap}
+.pbtn{font:inherit;font-size:.9rem;font-weight:700;padding:6px 14px;border-radius:4px;border:1px solid var(--rule-strong);background:transparent;color:var(--ink);cursor:pointer}
+.pbtn:hover{border-color:var(--pen)}
+.pbtn[aria-pressed="true"]{background:var(--pen);border-color:var(--pen);color:var(--on-pen)}
+
+/* Summary */
+.summary{font-family:var(--font-read);font-size:1.05rem;line-height:1.95;margin:0}
+.sent{cursor:pointer;border-radius:3px;padding:2px 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.sent:hover{background:var(--pen-wash)}
+.sent.on{background:var(--marker);color:var(--marker-ink)}
+.chart{margin:24px 0 0;padding-top:18px;border-top:1px solid var(--rule)}
+.chart figcaption{margin-bottom:10px}
+.ch-t{display:block;font-weight:700}
+.ch-s{display:block;font-size:.88rem;color:var(--ink-soft)}
+.brow{display:grid;grid-template-columns:minmax(0,12rem) minmax(0,1fr) 3.4rem;grid-template-areas:"lab track val";align-items:center;column-gap:12px;padding:5px 0;font-size:.95rem}
+.blab{grid-area:lab;text-align:right;line-height:1.25}
+.btrack{grid-area:track;height:18px;border-left:1px solid var(--rule-strong)}
+.bfill{display:block;height:100%;background:var(--pen);border-radius:0 2px 2px 0}
+.bval{grid-area:val;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* Results */
+.results{padding-top:52px;padding-bottom:72px;max-width:880px}
+.res-head h1{font-family:var(--font-read);font-weight:600;font-size:clamp(2.1rem,5vw,3rem);letter-spacing:-.015em;margin:0 0 12px}
+.res-score{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:1.2rem;margin:0}
+.res-num{font-family:var(--font-read);font-weight:600;font-size:clamp(3.4rem,10vw,5.2rem);line-height:1;color:var(--pen)}
+.res-head{margin-bottom:40px}
+.results h2{margin-top:8px}
+details.review{border-top:1px solid var(--rule);padding:14px 0}
+details.review:last-of-type{border-bottom:1px solid var(--rule)}
+details.review summary{cursor:pointer;font-weight:700;display:flex;align-items:baseline;gap:10px;list-style:none}
+details.review summary::-webkit-details-marker{display:none}
+.chev{display:inline-block;color:var(--pen);font-size:1.3rem;line-height:1;transition:transform .15s}
+details[open] .chev{transform:rotate(90deg)}
+.rv-title{flex:1}
+.rv-score{font-variant-numeric:tabular-nums;color:var(--ink-soft);white-space:nowrap}
+.rv-list{padding-top:6px}
+.rv-note{color:var(--ink-soft);font-size:.95rem;margin:8px 0 4px}
+.rv{display:flex;gap:12px;padding:12px 0;border-top:1px dashed var(--rule)}
+.rv:first-child{border-top:0}
+.rv-mark{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.rv.ok .rv-mark{background:var(--ok-wash);color:var(--ok)}
+.rv.bad .rv-mark{background:var(--bad-wash);color:var(--alert)}
+.rv-body p{margin:0 0 4px}
+.rv-label{font-weight:700}
+.rv-expl{color:var(--ink-soft);font-size:.95rem}
+.res-actions{margin-top:32px}
+
+/* Modal and toast */
+.modal{position:fixed;inset:0;background:var(--scrim);display:grid;place-items:center;padding:20px;z-index:50}
+.modal[hidden]{display:none}
+.modal-box{background:var(--sheet);color:var(--ink);border:1px solid var(--rule);border-radius:8px;padding:24px;max-width:460px;width:100%}
+.modal-box h2{font-family:var(--font-read);font-weight:600;font-size:1.35rem;margin:0 0 8px}
+.modal-box p{margin:0;color:var(--ink-soft)}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;flex-wrap:wrap}
+.toast{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;padding:0 16px calc(env(safe-area-inset-bottom,0px) + 16px);pointer-events:none;z-index:60}
+.toast-msg{background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:6px;font-weight:700;max-width:520px;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s}
+.toast-msg.show{opacity:1;transform:none}
+
+/* Narrow screens */
+@media (max-width:899px){
+ .split,.order{grid-template-columns:minmax(0,1fr)}
+ .sheet,.answers{min-width:0}
+ .pane-switch{display:flex;margin:0 0 16px;border:1px solid var(--rule-strong);border-radius:4px;overflow:hidden;position:sticky;top:calc(env(safe-area-inset-top,0px) + 74px);z-index:5;background:var(--paper)}
+ .pane-switch button{flex:1;font:inherit;font-weight:700;padding:10px;background:transparent;color:var(--ink);border:0;cursor:pointer}
+ .pane-switch button[aria-selected="true"]{background:var(--pen);color:var(--on-pen)}
+ .task[data-pane="text"] .pane-answers{display:none}
+ .task[data-pane="answers"] .pane-text{display:none}
+ .mobile-only{display:inline-block;margin-top:20px}
+}
+@media (max-width:560px){
+ .wrap{padding-left:14px;padding-right:14px}
+ .pcols{grid-template-columns:1fr}
+ .tb-left strong,.tb-sep{display:none}
+ .reading{font-size:1.02rem}
+ .brow{grid-template-columns:minmax(0,1fr) 3.4rem;grid-template-areas:"lab lab" "track val";row-gap:4px;padding:6px 0}
+ .blab{text-align:left}
+}
+.pair-hint{margin:0 0 14px;color:var(--ink-soft);font-size:.95rem}.pcol.pn{margin-bottom:22px}.pcol.pn .pslots{display:grid;grid-template-columns:1fr 1fr;column-gap:10px}.pcol.over{outline:3px solid var(--pen);outline-offset:2px;background:var(--pen-wash)}.plist.over{outline:3px dashed var(--pen);outline-offset:4px;border-radius:6px}.pslot.filled{align-items:flex-start;cursor:grab}.pslot .ptext{flex:1}.px{font:inherit;background:none;border:0;color:var(--ink-soft);cursor:pointer;min-width:32px;min-height:32px;padding:0;flex:none}.px:hover{color:var(--alert)}.px:focus-visible{outline:3px solid var(--pen);outline-offset:1px;border-radius:4px}.drag-handle{display:inline-flex;align-items:center;justify-content:center;width:24px;min-height:24px;margin-right:6px;color:var(--ink-soft);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;flex:none}@media (pointer:fine){.pst{cursor:grab}}.drag-ghost{position:fixed;left:0;top:0;z-index:80;max-width:320px;padding:8px 12px;border-radius:6px;background:var(--sheet);color:var(--ink);border:2px solid var(--pen);box-shadow:0 8px 22px rgba(12,18,26,.22);font-size:.95rem;pointer-events:none}body.is-dragging{user-select:none;-webkit-user-select:none;cursor:grabbing}@media (max-width:520px){.pcol.pn .pslots{grid-template-columns:1fr}}details.src{margin-top:.6em}details.src summary{cursor:pointer;font-weight:700;color:var(--pen)}details.src ul{margin:.5em 0 0;padding-left:1.2em}details.src li{margin:.25em 0}</style>
+<style>.site-back{max-width:1180px;margin:0 auto;padding:12px 20px 0;font-family:var(--font-ui);font-size:.95rem}.site-back a{color:var(--pen);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:.4em;padding:6px 0}.site-back a:hover{text-decoration:underline}.site-back a:focus-visible{outline:3px solid var(--pen);outline-offset:2px;border-radius:4px}</style>
+</head>
+<body>
+<nav class="site-back" aria-label="Website"><a href="../index.html" data-site-back><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2 4 7l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Alle Modelltests</a></nav>
+<div id="app"></div>
+
+<div class="modal" id="modal" hidden>
+ <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-h" aria-describedby="modal-p">
+ <h2 id="modal-h"></h2>
+ <p id="modal-p"></p>
+ <div class="modal-actions">
+ <button type="button" class="btn ghost" data-act="modal-cancel">Abbrechen</button>
+ <button type="button" class="btn primary" data-act="modal-ok" id="modal-ok"></button>
+ </div>
+ </div>
+</div>
+<div class="toast" aria-live="polite"><div class="toast-msg" id="toast"></div></div>
+
+<script>
+(function () {
+'use strict';
+
+var LET = ['A','B','C','D','E','F','G','H'];
+
+var TASKS = [
+/* ---------------- Aufgabe 1 ---------------- */
+{
+ "type": "gap",
+ "name": "Lückentext ergänzen",
+ "minutes": 4,
+ "items": 5,
+ "instructions": [
+ "Lesen Sie den Lückentext.",
+ "Wählen Sie für jede Lücke das passende Wort aus. Die vier Wörter einer Lücke sind sich in der Bedeutung ähnlich; nur eines passt in den Zusammenhang.",
+ "Für jede Lücke gibt es genau eine richtige Lösung."
+ ],
+ "heading": "Warum Zebras Streifen tragen",
+ "paragraphs": [
+ "Warum Zebras Streifen haben, beschäftigt die Forschung seit mehr als hundert Jahren; schon Charles Darwin und Alfred Russel Wallace waren darüber uneins. Lange galten die Streifen als Tarnung vor Löwen. Diese Erklärung ist jedoch {0}, denn Löwen jagen meist in der Dämmerung und können die Streifen aus größerer Entfernung kaum erkennen.",
+ "Inzwischen {1} vieles für eine andere Erklärung: Die Streifen schützen offenbar vor blutsaugenden Bremsen. Ein Team um den Biologen Tim Caro führte dazu 2019 in England ein {2} durch. Pferde, die eine Decke mit Zebramuster trugen, wurden deutlich seltener von Bremsen gestochen als Pferde mit einfarbigen Decken. Die Insekten flogen zwar auf die gestreiften Tiere zu, {3} landeten sie kaum auf ihnen.",
+ "Vermutlich {4} die Streifen die Wahrnehmung der Bremsen, sodass diese ihren Landeanflug nicht richtig abbremsen können. Für Zebras ist das wichtig, denn Bremsen übertragen in Afrika gefährliche Krankheiten, und das kurze Fell der Tiere bietet kaum Schutz."
+ ],
+ "gaps": [
+ {
+ "options": [
+ "bestritten",
+ "umstritten",
+ "gestritten",
+ "zerstritten"
+ ],
+ "answer": 1,
+ "why": "Eine Erklärung, über die man unterschiedlicher Meinung ist, ist „umstritten“. „zerstritten“ sagt man von Menschen, „bestritten“ heißt „abgelehnt“, „gestritten“ ist nur ein Partizip."
+ },
+ {
+ "options": [
+ "redet",
+ "sagt",
+ "spricht",
+ "äußert"
+ ],
+ "answer": 2,
+ "why": "Feste Wendung: „Vieles spricht für etwas“ (= es gibt gute Gründe dafür). Mit „reden“, „sagen“ oder „äußern“ ist diese Wendung nicht möglich."
+ },
+ {
+ "options": [
+ "Probe",
+ "Prüfung",
+ "Erprobung",
+ "Experiment"
+ ],
+ "answer": 3,
+ "why": "Vor der Lücke steht „ein“, also wird ein Nomen im Neutrum gebraucht: „ein Experiment durchführen“. „Probe“, „Prüfung“ und „Erprobung“ sind feminin."
+ },
+ {
+ "options": [
+ "doch",
+ "sondern",
+ "denn",
+ "oder"
+ ],
+ "answer": 0,
+ "why": "Zu „zwar“ gehört ein Gegensatz mit „aber“ oder „doch“. „sondern“ verlangt eine Verneinung davor, „denn“ nennt einen Grund, „oder“ eine Alternative."
+ },
+ {
+ "options": [
+ "belästigen",
+ "stören",
+ "ärgern",
+ "nerven"
+ ],
+ "answer": 1,
+ "why": "Die Wahrnehmung wird „gestört“ (= sie funktioniert nicht richtig). „belästigen“, „ärgern“ und „nerven“ kann man nur Lebewesen, nicht eine Wahrnehmung."
+ }
+ ]
+},
+/* ---------------- Aufgabe 2 ---------------- */
+{
+ "type": "order",
+ "name": "Textabschnitte ordnen",
+ "minutes": 5,
+ "items": 4,
+ "instructions": [
+ "Lesen Sie die Textabschnitte.",
+ "Bringen Sie die Abschnitte A bis D in die richtige Reihenfolge.",
+ "Tippen Sie zuerst auf einen Abschnitt und dann auf die Position, an die er gehört. Tippen Sie auf eine besetzte Position, um den Abschnitt wieder zu entfernen.",
+ "Es gibt genau eine richtige Reihenfolge."
+ ],
+ "heading": "Ein rätselhaftes Leuchten",
+ "chunks": [
+ "In den folgenden Wochen untersuchte Röntgen die rätselhaften Strahlen fast ununterbrochen. Er stellte fest, dass sie viele Materialien durchdrangen, Knochen oder Metall dagegen kaum. Weil er ihre Natur nicht kannte, nannte er sie schlicht „X-Strahlen“.",
+ "Am Abend des 8. November 1895 experimentierte der Physiker Wilhelm Conrad Röntgen in Würzburg mit einer Kathodenstrahlröhre, die er vollständig mit schwarzem Karton umhüllt hatte. Trotzdem begann ein beschichteter Schirm, der in einiger Entfernung lag, schwach zu leuchten. Offenbar ging von der Röhre eine unbekannte Strahlung aus, die sogar den Karton durchdrang.",
+ "Ende Dezember veröffentlichte Röntgen seine Entdeckung, und die Nachricht verbreitete sich in kürzester Zeit um die Welt. 1901 erhielt er dafür den ersten Nobelpreis für Physik. Ein Patent meldete er bewusst nie an.",
+ "Kurz vor Weihnachten entstand sein berühmtestes Bild: die Aufnahme der Hand seiner Frau Anna Bertha, auf der die Knochen und ihr Ehering deutlich zu erkennen sind. Als sie das Bild sah, soll sie gesagt haben, sie habe ihren eigenen Tod gesehen."
+ ],
+ "solution": [
+ 1,
+ 0,
+ 3,
+ 2
+ ],
+ "why": [
+ "B beschreibt die Entdeckung am 8. November 1895.",
+ "A folgt mit den „folgenden Wochen“ und erklärt, was Röntgen über die Strahlen herausfand und wie er sie nannte.",
+ "D bringt kurz vor Weihnachten das berühmte Bild der Hand. Dass Knochen auf dem Bild zu sehen sind, setzt die Erkenntnisse aus A voraus.",
+ "C nennt die Veröffentlichung Ende Dezember und die Folgen bis 1901."
+ ]
+},
+/* ---------------- Aufgabe 3 ---------------- */
+{
+ type:'mc', name:'Multiple-Choice', minutes:15, items:7,
+ instructions:['Lesen Sie den Text.','Beantworten Sie die Fragen 1–7.','Für jede Frage gibt es genau eine richtige Lösung.'],
+ heading:'Winzig klein und überall: Mikroplastik',
+ paragraphs:[
+ 'Als Mikroplastik bezeichnet man Kunststoffteilchen, die kleiner als fünf Millimeter sind. Manche von ihnen werden gezielt hergestellt, etwa als Zusatz in Kosmetikprodukten. Der weitaus größte Teil entsteht jedoch erst in der Umwelt, wenn größere Plastikgegenstände durch Sonne, Wind und Wellen allmählich in immer kleinere Stücke zerfallen.',
+ 'Eine der wichtigsten Quellen dürfte viele überraschen: der Abrieb von Autoreifen. Bei jeder Fahrt lösen sich winzige Partikel vom Gummi, die mit dem Regen in Böden und Gewässer gespült werden. Studien zufolge ist der Reifenabrieb in Deutschland sogar die größte einzelne Quelle für Mikroplastik. Auch beim Waschen von Kleidung aus Kunstfasern gelangen große Mengen feiner Fasern ins Abwasser.',
+ 'Inzwischen wurde Mikroplastik praktisch überall nachgewiesen: in der Tiefsee und im arktischen Eis, in Speisesalz, Honig und Trinkwasser, ja sogar im menschlichen Blut. Wie die Teilchen in den menschlichen Körper gelangen, ist teilweise geklärt: vor allem über die Nahrung und über die Atemluft.',
+ 'Weit weniger klar ist dagegen, welche Folgen das für die Gesundheit hat. Laborversuche zeigen, dass Mikroplastik bei Tieren Entzündungen auslösen kann, doch ob sich diese Ergebnisse auf den Menschen übertragen lassen, ist umstritten. Fachleute betonen, dass es für eine abschließende Bewertung noch zu wenige Langzeitstudien gibt.',
+ 'Die Politik hat inzwischen erste Schritte unternommen. So hat die Europäische Union verboten, Kosmetikprodukten und anderen Waren absichtlich Mikroplastik zuzusetzen; das Verbot gilt allerdings mit teils langen Übergangsfristen. Kritiker bemängeln, dass damit nur ein kleiner Teil des Problems erfasst wird, da der Großteil des Mikroplastiks gar nicht absichtlich hinzugefügt wird.',
+ 'Auch jeder Einzelne kann etwas beitragen, etwa indem er weniger Einwegplastik verwendet, Kleidung aus Naturfasern bevorzugt oder das Auto häufiger stehen lässt. Das Problem vollständig lösen lässt sich auf diese Weise allerdings nicht, darin sind sich die meisten Fachleute einig. Dafür seien vor allem neue Materialien und strengere Vorgaben für die Industrie nötig.'
+ ],
+ questions:[
+ {stem:'Laut Absatz 1 entsteht der größte Teil des Mikroplastiks, …',
+ options:['weil es Kosmetikprodukten zugesetzt wird.','wenn größere Plastikteile in der Umwelt zerfallen.','bei der Herstellung von Plastikflaschen.','durch chemische Reaktionen im Meerwasser.'],
+ answer:1, why:'„Der weitaus größte Teil entsteht jedoch erst in der Umwelt, wenn größere Plastikgegenstände … in immer kleinere Stücke zerfallen.“ Zusätze in Kosmetik sind nur ein kleiner Teil.'},
+ {stem:'Welche der folgenden Aussagen fasst den Inhalt von Absatz 2 am besten zusammen?',
+ options:['Mikroplastik stammt vor allem aus der Kosmetik.','Autoreifen bestehen inzwischen aus Naturgummi.','Regen verhindert, dass Mikroplastik in Gewässer gelangt.','Reifenabrieb und Kleidung aus Kunstfasern sind wichtige Quellen für Mikroplastik.'],
+ answer:3, why:'Absatz 2 nennt den Reifenabrieb als größte einzelne Quelle in Deutschland und das Waschen von Kunstfaserkleidung als weitere wichtige Quelle.'},
+ {stem:'Laut Absatz 3 gelangt Mikroplastik vor allem … in den menschlichen Körper.',
+ options:['über die Haut','über das Blut','über Nahrung und Atemluft','über Medikamente'],
+ answer:2, why:'„… vor allem über die Nahrung und über die Atemluft.“ Im Blut wurde Mikroplastik nachgewiesen, das ist aber nicht der Weg in den Körper.'},
+ {stem:'In Absatz 4 werden die gesundheitlichen Folgen von Mikroplastik für den Menschen dargestellt als …',
+ options:['noch nicht ausreichend geklärt.','eindeutig gefährlich.','völlig harmlos.','durch Tierversuche endgültig bewiesen.'],
+ answer:0, why:'Ob sich die Ergebnisse aus Tierversuchen auf den Menschen übertragen lassen, ist umstritten; für eine abschließende Bewertung fehlen Langzeitstudien.'},
+ {stem:'Kritiker bemängeln laut Absatz 5, dass das Verbot der EU …',
+ options:['zu schnell eingeführt wurde.','nur einen kleinen Teil des Problems erfasst.','auch Autoreifen betrifft.','Kosmetikprodukte teurer macht.'],
+ answer:1, why:'„… da der Großteil des Mikroplastiks gar nicht absichtlich hinzugefügt wird.“ Wegen der langen Übergangsfristen kann von „zu schnell“ keine Rede sein.'},
+ {stem:'Welche der folgenden Überschriften passt inhaltlich am besten zu Absatz 6?',
+ options:['Einzelne können das Problem allein lösen','Die Industrie trägt keine Verantwortung','Naturfasern sind verboten','Beitrag des Einzelnen: sinnvoll, aber nicht genug'],
+ answer:3, why:'Jeder kann etwas beitragen, vollständig lösen lässt sich das Problem so aber nicht; nötig seien vor allem neue Materialien und strengere Vorgaben für die Industrie.'},
+ {stem:'Hauptanliegen des Textes ist es, …',
+ options:['für ein vollständiges Plastikverbot zu werben.','die Herstellung von Autoreifen zu erklären.','einen Überblick über Quellen, Verbreitung und mögliche Folgen von Mikroplastik zu geben.','vor dem Verzehr von Honig zu warnen.'],
+ answer:2, why:'Der Text erklärt, was Mikroplastik ist und woher es kommt (Absatz 1–2), wo es vorkommt (3), was über Folgen bekannt ist (4) und was dagegen getan wird (5–6).'}
+ ]
+},
+/* ---------------- Aufgabe 4 ---------------- */
+{
+ type:'speech', name:'Sprachhandlungen zuordnen', minutes:6, items:4,
+ instructions:['Lesen Sie den Text.','Ordnen Sie jeder Textstelle (1–4) die passende Aussage zu.','Die Zahlen beziehen sich immer auf den nachfolgenden Satz.','Jede Aussage kann nur einmal gewählt werden. Vier Aussagen bleiben übrig.'],
+ heading:'Kommentar: Das Recht auf Feierabend',
+ byline:'Kommentar einer Arbeitspsychologin',
+ paragraphs:[
+ 'Das Smartphone hat die Arbeitswelt grundlegend verändert. Wer will, kann E-Mails heute am Frühstückstisch, im Zug oder am Strand beantworten. [1] Die Grenze zwischen Arbeit und Freizeit wird in den kommenden Jahren noch weiter verschwimmen, daran führt kein Weg vorbei.',
+ 'Umso wichtiger ist es, dass Unternehmen klare Regeln aufstellen. [2] Dass manche Vorgesetzte noch am Sonntagabend Aufgaben verschicken und bis Montagmorgen eine Antwort erwarten, halte ich für respektlos gegenüber ihren Beschäftigten.',
+ '[3] Dass einige Firmen ihre E-Mail-Server nach Feierabend inzwischen einfach abschalten, finde ich deshalb ausgezeichnet. Die Nachrichten werden dann erst am nächsten Morgen zugestellt, und niemand muss sich verpflichtet fühlen, abends noch zu reagieren.',
+ 'Manche halten ständige Erreichbarkeit noch immer für ein Zeichen besonderen Engagements. [4] Wer aber nie wirklich abschaltet, setzt auf Dauer seine Gesundheit aufs Spiel: Schlafprobleme, Erschöpfung und Konzentrationsstörungen sind häufige Folgen. Gönnen Sie sich also bewusst Zeiten, in denen das Diensthandy ausgeschaltet bleibt.'
+ ],
+ options:['Die Autorin bedauert etwas.','Die Autorin begrüßt etwas.','Die Autorin empfiehlt etwas.','Die Autorin kritisiert etwas.','Die Autorin prognostiziert etwas.','Die Autorin vermutet etwas.','Die Autorin warnt vor etwas.','Die Autorin zweifelt an etwas.'],
+ markers:[
+ {answer:4, why:'„wird … noch weiter verschwimmen, daran führt kein Weg vorbei“: eine sichere Vorhersage.'},
+ {answer:3, why:'„halte ich für respektlos“: Die Autorin kritisiert das Verhalten der Vorgesetzten.'},
+ {answer:1, why:'„finde ich deshalb ausgezeichnet“: Sie begrüßt die Abschaltung der Server.'},
+ {answer:6, why:'„setzt auf Dauer seine Gesundheit aufs Spiel“: Sie warnt vor den Folgen ständiger Erreichbarkeit. Der Ratschlag im letzten Satz ist nicht markiert.'}
+ ]
+},
+/* ---------------- Aufgabe 5 ---------------- */
+{
+ type:'category', name:'Aussagen Kategorien zuordnen', minutes:9, items:7,
+ instructions:['Lesen Sie den Text.','Entscheiden Sie für jede Aussage (1–7), ob sie zum gedruckten Wörterbuch, zum Online-Wörterbuch, zu beiden oder gar nicht passt.','Für jede Aussage gibt es genau eine richtige Lösung. Die Aussagen folgen nicht dem Textverlauf.'],
+ heading:'Wörterbuch aus Papier oder aus dem Netz?',
+ paragraphs:[
+ 'Wer eine Fremdsprache lernt, kommt ohne Wörterbuch kaum aus. Doch während früher dicke Bände im Regal standen, greifen heute die meisten Lernenden zum Smartphone. Welche Variante ist die bessere?',
+ 'Gedruckte Wörterbücher werden von erfahrenen Redaktionen erstellt und sorgfältig geprüft. Wer darin nachschlägt, kann sich deshalb in der Regel auf die Angaben verlassen. Zudem funktioniert ein Buch auch ohne Internetverbindung und ohne Akku. Allerdings sind gedruckte Ausgaben schwer, und neue Wörter, etwa aus der Technik oder der Jugendsprache, fehlen oft, weil eine Neuauflage nur alle paar Jahre erscheint.',
+ 'Online-Wörterbücher sind dagegen meist kostenlos und werden laufend aktualisiert. Viele bieten zusätzlich Hörbeispiele an, sodass man sich die Aussprache eines Wortes anhören kann. Die Qualität schwankt allerdings stark: Neben seriösen Angeboten gibt es Seiten, deren Einträge von Nutzern stammen und nicht immer korrekt sind. Außerdem lenkt Werbung auf manchen Seiten vom Lernen ab.',
+ 'Egal, für welche Variante man sich entscheidet: Ein Wörterbuch ersetzt nicht das Nachdenken. Wer ein Wort nachschlägt, sollte immer auch die Beispielsätze lesen, denn viele Wörter haben je nach Zusammenhang unterschiedliche Bedeutungen. Beide Arten von Wörterbüchern bieten dafür in der Regel zahlreiche Beispiele.'
+ ],
+ cats:['gedruckt','online','beide','passt nicht'],
+ statements:[
+ {text:'Die Einträge werden von einer Redaktion geprüft.', answer:0, why:'Absatz 2: Gedruckte Wörterbücher werden von erfahrenen Redaktionen erstellt und geprüft.'},
+ {text:'Es übersetzt ganze Texte automatisch.', answer:3, why:'Automatische Übersetzungen ganzer Texte werden im Text nicht erwähnt.'},
+ {text:'Man kann sich anhören, wie ein Wort ausgesprochen wird.', answer:1, why:'Absatz 3: Viele Online-Wörterbücher bieten Hörbeispiele an.'},
+ {text:'Man kann es auch ohne Internet benutzen.', answer:0, why:'Absatz 2: Ein Buch funktioniert auch ohne Internetverbindung und ohne Akku.'},
+ {text:'Es enthält Beispielsätze, die bei der Bedeutung helfen.', answer:2, why:'Absatz 4: „Beide Arten von Wörterbüchern bieten … zahlreiche Beispiele.“'},
+ {text:'Es ist besonders für Anfänger geeignet.', answer:3, why:'Für welche Lernenden sich welche Variante eignet, sagt der Text nicht.'},
+ {text:'Neue Wörter werden schnell aufgenommen.', answer:1, why:'Absatz 3: Online-Wörterbücher werden laufend aktualisiert; gedruckten fehlen neue Wörter oft.'}
+ ]
+},
+/* ---------------- Aufgabe 6 ---------------- */
+{
+ type:'pair', name:'Aussagen einem Begriffspaar zuordnen', minutes:7, items:4,
+ instructions:['Lesen Sie den Text.','Entscheiden Sie, welche Aussagen laut Text stimmen, und ordnen Sie sie der passenden Kategorie zu.','Es müssen vier Aussagen zugeordnet werden, zwei pro Kategorie. Vier Aussagen passen nicht.'],
+ heading:'Wohnen auf kleinstem Raum',
+ paragraphs:[
+ 'Zwanzig oder dreißig Quadratmeter, oft auf Rädern, mit einer Küchenzeile, einem kleinen Bad und einem Schlafplatz unter dem Dach: So sehen viele sogenannte Tiny Houses aus. Die Minihäuser, die ursprünglich aus den USA stammen, finden auch in Deutschland immer mehr Anhänger.',
+ 'Für viele ist vor allem der Preis ausschlaggebend. Ein Tiny House kostet nur einen Bruchteil eines herkömmlichen Einfamilienhauses, und auch die laufenden Kosten für Heizung und Strom sind deutlich geringer. Andere reizt die Idee, bewusst mit weniger Besitz auszukommen und sich auf das Wesentliche zu beschränken.',
+ 'Der Traum vom kleinen Haus stößt allerdings schnell an Grenzen. Das größte Problem ist oft, überhaupt ein passendes Grundstück zu finden, denn Bauland ist knapp und teuer, und viele Gemeinden erlauben das Aufstellen der Häuser nur unter strengen Auflagen. Hinzu kommt, dass der wenige Platz im Alltag schnell zur Belastung werden kann, besonders wenn mehrere Menschen zusammenleben.',
+ 'Ob Tiny Houses tatsächlich einen Beitrag gegen die Wohnungsnot leisten können, ist unter Stadtplanern umstritten. Kritiker weisen darauf hin, dass die Häuser pro Person oft mehr Fläche verbrauchen als eine Wohnung in einem Mehrfamilienhaus, wenn man das Grundstück mitrechnet.'
+ ],
+ cats:['Gründe für die Beliebtheit','Schwierigkeiten'],
+ catsShort:['Grund','Schwierigkeit'],
+ statements:[
+ {text:'Die Häuser sind ideal für Großfamilien.', answer:null, why:'Falsch: Besonders wenn mehrere Menschen zusammenleben, kann der wenige Platz zur Belastung werden.'},
+ {text:'Geeignete Grundstücke sind schwer zu finden.', answer:1, why:'Absatz 3: Das größte Problem ist oft, ein passendes Grundstück zu finden.'},
+ {text:'Die Anschaffung ist vergleichsweise günstig.', answer:0, why:'Absatz 2: Ein Tiny House kostet nur einen Bruchteil eines Einfamilienhauses.'},
+ {text:'Tiny Houses lösen die Wohnungsnot in den Städten.', answer:null, why:'Falsch: Ob sie gegen die Wohnungsnot helfen, ist umstritten.'},
+ {text:'Für die Häuser braucht man keinerlei Genehmigung.', answer:null, why:'Falsch: Viele Gemeinden erlauben das Aufstellen nur unter strengen Auflagen.'},
+ {text:'Manche möchten bewusst mit weniger Besitz auskommen.', answer:0, why:'Absatz 2: Andere reizt die Idee, bewusst mit weniger Besitz auszukommen.'},
+ {text:'In einem Tiny House gibt es keine Küche.', answer:null, why:'Falsch: Viele Tiny Houses haben eine Küchenzeile.'},
+ {text:'Der geringe Platz kann im Alltag belastend sein.', answer:1, why:'Absatz 3: Der wenige Platz kann im Alltag schnell zur Belastung werden.'}
+ ]
+},
+/* ---------------- Aufgabe 7 ---------------- */
+{
+ type:'summary', name:'Fehler in Zusammenfassung erkennen', minutes:7, items:3,
+ instructions:['Lesen Sie den Text und beachten Sie auch die Informationen aus der Grafik.','Die Zusammenfassung folgt nicht dem Textverlauf.','Tippen Sie auf die Sätze der Zusammenfassung, die inhaltlich falsch sind. Ein zweites Antippen hebt die Markierung wieder auf.','Es gibt genau drei inhaltlich falsche Sätze.'],
+ heading:'Mülltrennung: Vorbild mit Lücken',
+ paragraphs:[
+ 'Deutschland gilt vielen als Vorbild in Sachen Mülltrennung. In den meisten Haushalten stehen mehrere Tonnen für Papier, Verpackungen, Bioabfall und Restmüll, und Glas wird nach Farben getrennt zu Sammelcontainern gebracht. Umfragen zeigen, dass die große Mehrheit der Bevölkerung ihren Abfall nach eigenen Angaben sorgfältig sortiert.',
+ 'Besonders erfolgreich ist das Pfandsystem: Laut der Gesellschaft für Verpackungsmarktforschung wurden 2021 rund 98,7 Prozent der Pfandflaschen zurückgegeben und konnten wiederverwertet werden.',
+ 'Beim Plastik fällt die Bilanz dagegen gemischter aus. Ein erheblicher Teil der gesammelten Kunststoffverpackungen wird nicht zu neuen Produkten verarbeitet, sondern verbrannt, um daraus Energie zu gewinnen. Hinzu kommt, dass viele Verpackungen aus mehreren Materialien bestehen, die sich kaum voneinander trennen lassen.',
+ 'Probleme gibt es auch beim Bioabfall. Immer wieder landen darin Plastiktüten und andere Fremdstoffe, die die Herstellung von Kompost erschweren. Und alte Elektrogeräte wie Handys oder Toaster werden noch viel zu selten zu den Sammelstellen gebracht; viele verschwinden in Schubladen oder landen im Hausmüll.'
+ ],
+ chart:{"title": "Was passiert mit Kunststoffabfällen von Verbrauchern?", "subtitle": "Kunststoffabfälle nach Gebrauch in Deutschland 2023, in Prozent. Quelle: Umweltbundesamt / Conversio", "data": [{"label": "verbrannt (energetisch verwertet)", "value": 64}, {"label": "recycelt (stofflich verwertet)", "value": 35}, {"label": "beseitigt, z. B. Deponie", "value": 1}]},
+ sentences:[
+ {
+ "text": "Die meisten Menschen trennen ihren Abfall nach eigenen Angaben sorgfältig.",
+ "wrong": false,
+ "why": "Text: So zeigen es Umfragen."
+ },
+ {
+ "text": "Der größte Teil der Kunststoffabfälle wird recycelt.",
+ "wrong": true,
+ "why": "Grafik: Recycelt werden 35 %, verbrannt 64 %."
+ },
+ {
+ "text": "Fast alle Pfandflaschen werden zurückgegeben.",
+ "wrong": false,
+ "why": "Text: rund 98,7 % im Jahr 2021."
+ },
+ {
+ "text": "Knapp zwei Drittel der Kunststoffabfälle von Verbrauchern werden verbrannt.",
+ "wrong": false,
+ "why": "Grafik: 64 %."
+ },
+ {
+ "text": "Verpackungen aus mehreren Materialien lassen sich besonders leicht recyceln.",
+ "wrong": true,
+ "why": "Text: Die Materialien lassen sich kaum voneinander trennen."
+ },
+ {
+ "text": "Fremdstoffe im Bioabfall erschweren die Herstellung von Kompost.",
+ "wrong": false,
+ "why": "Text: So steht es im letzten Absatz."
+ },
+ {
+ "text": "Alte Elektrogeräte werden meist zuverlässig zu Sammelstellen gebracht.",
+ "wrong": true,
+ "why": "Text: Sie werden noch viel zu selten dorthin gebracht."
+ },
+ {
+ "text": "Nur ein sehr kleiner Teil der Kunststoffabfälle landet auf der Deponie.",
+ "wrong": false,
+ "why": "Grafik: etwa 1 %."
+ }
+]
+}
+];
+
+window.__TASKS = TASKS;
+/* ================= State ================= */
+var state = { mode:'exam', idx:-1, answers:[], remaining:0, deadline:0, timer:null, pane:'text', armed:null, warned:-1, modalOk:null, lastFocus:null };
+var app = document.getElementById('app');
+var modal = document.getElementById('modal');
+var toastEl = document.getElementById('toast');
+var toastTimer = null;
+
+function sum(arr){ return arr.reduce(function(a,b){ return a+b; }, 0); }
+var TOTAL_MIN = sum(TASKS.map(function(t){ return t.minutes; }));
+var TOTAL_ITEMS = sum(TASKS.map(function(t){ return t.items; }));
+var MAX_MIN = Math.max.apply(null, TASKS.map(function(t){ return t.minutes; }));
+
+function cur(){ return state.answers[state.idx]; }
+function fmt(s){ var m = Math.floor(s/60), r = s % 60; return m + ':' + (r < 10 ? '0' : '') + r; }
+function fill(n, v){ var a = []; for (var i = 0; i < n; i++) a.push(v); return a; }
+function reduceMotion(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function narrow(){ return window.matchMedia && window.matchMedia('(max-width: 899px)').matches; }
+
+function initAnswers(){
+ state.answers = TASKS.map(function(t){
+ switch (t.type) {
+ case 'gap': return fill(t.gaps.length, null);
+ case 'order': return fill(t.chunks.length, null);
+ case 'mc': return fill(t.questions.length, null);
+ case 'speech': return fill(t.markers.length, null);
+ case 'category': return fill(t.statements.length, null);
+ case 'pair': return fill(t.statements.length, null);
+ case 'summary': return fill(t.sentences.length, false);
+ }
+ });
+}
+
+/* ================= Start page ================= */
+function renderStart(){
+ stopTimer();
+ var rows = TASKS.map(function(t,i){
+ return '<li class="plan-row"><span class="plan-n">'+(i+1)+'</span><span class="plan-name">'+t.name+'</span>'+
+ '<span class="plan-meta">'+t.items+' Items, '+t.minutes+' Min.</span>'+
+ '<span class="plan-bar" aria-hidden="true"><span style="width:'+(t.minutes/MAX_MIN*100)+'%"></span></span></li>';
+ }).join('');
+ app.innerHTML =
+ '<main class="wrap start">'+
+ '<header class="hero"><h1>Modelltest Lesen 11</h1>'+
+ '<p class="lede">Eine vollständige Übungsprüfung im Format des digitalen TestDaF: '+TASKS.length+'&nbsp;Aufgaben mit '+TOTAL_ITEMS+'&nbsp;Items in '+TOTAL_MIN+'&nbsp;Minuten.</p></header>'+
+ '<section aria-labelledby="plan-h"><h2 id="plan-h">Ablauf</h2><ol class="plan-list">'+rows+'</ol></section>'+
+ '<section class="mode" aria-labelledby="mode-h"><h2 id="mode-h">Modus</h2>'+
+ '<label class="mode-opt"><input type="radio" name="mode" value="exam"'+(state.mode==='exam'?' checked':'')+'><span class="bubble" aria-hidden="true"></span>'+
+ '<span><strong>Prüfungsmodus</strong><small>Feste Zeit pro Aufgabe wie in der echten Prüfung. Wenn die Zeit abläuft, geht es automatisch weiter. Zurückgehen ist nicht möglich.</small></span></label>'+
+ '<label class="mode-opt"><input type="radio" name="mode" value="practice"'+(state.mode==='practice'?' checked':'')+'><span class="bubble" aria-hidden="true"></span>'+
+ '<span><strong>Übungsmodus</strong><small>Ohne Zeitlimit. Sie können frei zwischen den Aufgaben wechseln.</small></span></label>'+
+ '</section>'+
+ '<button type="button" class="btn primary" data-act="start">Test starten</button>'+
+ '<p class="fine">Alle Texte wurden für diese Übung geschrieben. Zahlen, Studien und Umfragen stammen aus realen Quellen (siehe „Quellen“ unten). Auf dem Smartphone wechseln Sie oben zwischen Text und Aufgaben. Das offizielle Format zeigt die Demo-Version auf <a href="https://www.testdaf.de" target="_blank" rel="noopener">testdaf.de</a>.</p>'+'<details class="fine src"><summary>Quellen</summary><ul><li>Aufgabe 1: Caro u. a. (2019) zu Zebrastreifen. Aufgabe 2: Röntgen (1895), Nobelpreis für Physik 1901.</li><li>Aufgabe 7: Umweltbundesamt / Conversio, „Stoffstrombild Kunststoffe in Deutschland 2023“; Gesellschaft für Verpackungsmarktforschung (GVM).</li></ul></details>'+
+ '</main>';
+}
+
+/* ================= Task shell ================= */
+function topbar(){
+ var segs = TASKS.map(function(x,i){
+ var cls = 'seg' + (i < state.idx ? ' done' : '') + (i === state.idx ? ' now' : '');
+ return '<span class="'+cls+'" style="flex-grow:'+x.minutes+'"><span class="fill"'+(i===state.idx?' id="curfill"':'')+'></span></span>';
+ }).join('');
+ var right = state.mode === 'exam'
+ ? '<span class="clock" id="clock" role="timer">'+fmt(state.remaining)+'</span>'
+ : '<span class="practice-tag">Übungsmodus</span>';
+ return '<header class="topbar"><div class="wrap topbar-in">'+
+ '<div class="tb-left"><strong>Lesen</strong><span class="tb-sep" aria-hidden="true"></span><span>Aufgabe '+(state.idx+1)+' von '+TASKS.length+'</span></div>'+
+ '<div class="tb-right">'+right+'<button type="button" class="btn ghost small" data-act="quit">Beenden</button></div>'+
+ '</div><div class="wrap"><div class="track" aria-hidden="true">'+segs+'</div></div></header>';
+}
+
+function navHTML(){
+ var last = state.idx === TASKS.length - 1;
+ if (state.mode === 'exam') {
+ return '<nav class="task-nav"><span class="nav-note">Danach können Sie nicht zu dieser Aufgabe zurück.</span>'+
+ '<button type="button" class="btn primary" data-act="next">'+(last ? 'Test beenden' : 'Weiter zu Aufgabe '+(state.idx+2))+'</button></nav>';
+ }
+ return '<nav class="task-nav">'+
+ (state.idx > 0 ? '<button type="button" class="btn ghost" data-act="prev">Zurück zu Aufgabe '+state.idx+'</button>' : '<span></span>')+
+ '<button type="button" class="btn primary" data-act="next">'+(last ? 'Test auswerten' : 'Weiter zu Aufgabe '+(state.idx+2))+'</button></nav>';
+}
+
+function renderTask(){
+ var t = TASKS[state.idx], a = cur();
+ var body = RENDER[t.type](t, a);
+ var instr = t.instructions.map(function(s){ return '<p>'+s+'</p>'; }).join('') +
+ (state.mode === 'exam' ? '<p>Sie haben '+t.minutes+' Minuten Zeit.</p>' : '');
+ app.innerHTML = topbar() +
+ '<main class="wrap task" data-pane="'+state.pane+'" data-type="'+t.type+'">'+
+ '<div class="task-head"><h1 class="task-title">Aufgabe '+(state.idx+1)+': '+t.name+'</h1><div class="instr">'+instr+'</div></div>'+
+ body + navHTML() +
+ '</main>';
+ updateTimerUI();
+}
+
+/* ================= Shared pieces ================= */
+function paras(list){ return list.map(function(p){ return '<p>'+p+'</p>'; }).join(''); }
+
+function textSheet(t, inner, extra){
+ return '<h2 class="text-title">'+t.heading+'</h2>'+
+ (t.byline ? '<p class="byline">'+t.byline+'</p>' : '')+
+ '<div class="reading">'+inner+'</div>'+(extra || '')+
+ '<button type="button" class="btn ghost mobile-only" data-act="pane" data-p="answers">Zu den Aufgaben</button>';
+}
+
+function split(textHTML, ansHTML){
+ return '<div class="pane-switch" role="tablist" aria-label="Ansicht">'+
+ '<button type="button" role="tab" data-act="pane" data-p="text" aria-selected="'+(state.pane==='text')+'">Text</button>'+
+ '<button type="button" role="tab" data-act="pane" data-p="answers" aria-selected="'+(state.pane==='answers')+'">Aufgaben</button>'+
+ '</div>'+
+ '<div class="split">'+
+ '<article class="sheet pane-text">'+textHTML+'</article>'+
+ '<section class="answers pane-answers" aria-label="Aufgaben">'+ansHTML+'</section>'+
+ '</div>';
+}
+
+function radioOpts(name, act, i, options, chosen, cls){
+ return options.map(function(o,j){
+ return '<label class="'+cls+'"><input type="radio" name="'+name+'" value="'+j+'" data-act="'+act+'" data-i="'+i+'"'+(chosen===j?' checked':'')+'>'+
+ '<span class="bubble" aria-hidden="true"></span><span class="'+(cls==='opt'?'opt-t':'g-lab')+'">'+o+'</span></label>';
+ }).join('');
+}
+
+/* ================= Renderers ================= */
+function renderGap(t, a){
+ var html = t.paragraphs.map(function(p){
+ return '<p>' + p.replace(/\{(\d+)\}/g, function(_, n){ return gapSelect(t, +n, a); }) + '</p>';
+ }).join('');
+ return '<article class="sheet solo"><h2 class="text-title">'+t.heading+'</h2><div class="reading">'+html+'</div></article>';
+}
+function gapSelect(t, i, a){
+ var g = t.gaps[i];
+ return '<span class="gap"><span class="gap-n" aria-hidden="true">'+(i+1)+'</span>'+
+ '<select data-act="gap" data-i="'+i+'" aria-label="Lücke '+(i+1)+'"><option value="">…</option>'+
+ g.options.map(function(o,j){ return '<option value="'+j+'"'+(a[i]===j?' selected':'')+'>'+o+'</option>'; }).join('')+
+ '</select></span>';
+}
+
+function renderOrder(t, a){
+ return '<h2 class="text-title">'+t.heading+'</h2>' + orderArea(t, a);
+}
+function orderArea(t, a){
+ var off = t.first ? 2 : 1;
+ var where = {};
+ a.forEach(function(c,i){ if (c !== null) where[c] = i; });
+ var armed = state.armed;
+ var hint = armed !== null
+ ? 'Abschnitt '+LET[armed]+' ist ausgewählt. Tippen Sie jetzt auf eine Position.'
+ : 'Tippen Sie zuerst auf einen Abschnitt.';
+ var slots = a.map(function(c,i){
+ var filled = c !== null;
+ var cls = 'slot' + (filled ? ' filled' : '') + (armed !== null && !filled ? ' target' : '');
+ var inner = filled
+ ? '<span class="chunk-tag">'+LET[c]+'</span><span class="reading-sm">'+t.chunks[c]+'</span><span class="sr">Antippen zum Entfernen</span>'
+ : '<span class="slot-empty">frei</span>';
+ return '<li><button type="button" class="'+cls+'" data-act="slot" data-i="'+i+'" id="slot-'+i+'"><span class="slot-n">'+(i+off)+'</span>'+inner+'</button></li>';
+ }).join('');
+ var pool = t.chunks.map(function(c,j){
+ var used = where[j] !== undefined;
+ var cls = 'chunk' + (used ? ' used' : '') + (armed === j ? ' armed' : '');
+ return '<button type="button" class="'+cls+'" data-act="place" data-j="'+j+'" id="chunk-'+j+'" aria-pressed="'+(armed===j)+'">'+
+ '<span class="chunk-tag">'+LET[j]+'</span><span><span class="reading-sm">'+c+'</span>'+
+ (used ? '<span class="chunk-where">steht an Position '+(where[j]+off)+'</span>' : '')+'</span></button>';
+ }).join('');
+ return '<div class="order" id="order-area">'+
+ '<section><h3 class="col-h">Ihre Reihenfolge</h3><ol class="slots">'+
+ (t.first ? '<li><div class="slot fixed"><span class="slot-n">1</span><span class="reading-sm">'+t.first+'</span></div></li>' : '')+slots+'</ol></section>'+
+ '<section><h3 class="col-h">Abschnitte</h3><p class="hint" aria-live="polite">'+hint+'</p><div class="pool">'+pool+'</div></section>'+
+ '</div>';
+}
+
+function renderMC(t, a){
+ var text = t.paragraphs.map(function(p,i){ return '<p><span class="pnum">('+(i+1)+')</span> '+p+'</p>'; }).join('');
+ var qs = t.questions.map(function(q,i){
+ return '<div class="q" role="radiogroup" aria-labelledby="mcq-'+i+'"><p class="q-stem" id="mcq-'+i+'"><span class="q-n">'+(i+1)+'</span><span>'+q.stem+'</span></p>'+
+ radioOpts('mc-'+i, 'mc', i, q.options, a[i], 'opt')+'</div>';
+ }).join('');
+ return split(textSheet(t, text), qs);
+}
+
+function renderSpeech(t, a){
+ var text = t.paragraphs.map(function(p){
+ return '<p>' + p.replace(/\[(\d)\]/g, function(_, n){ return '<span class="marker">'+n+'</span>'; }) + '</p>';
+ }).join('');
+ var qs = t.markers.map(function(m,i){
+ var opts = t.options.map(function(o,j){
+ var taken = a.indexOf(j) > -1 && a[i] !== j;
+ return '<option value="'+j+'"'+(a[i]===j?' selected':'')+(taken?' disabled':'')+'>'+o+'</option>';
+ }).join('');
+ return '<div class="q"><label class="q-stem" for="sp-'+i+'"><span class="marker" aria-hidden="true">'+(i+1)+'</span><span>Textstelle '+(i+1)+'</span></label>'+
+ '<select class="sel" id="sp-'+i+'" data-act="speech" data-i="'+i+'"><option value="">Aussage wählen …</option>'+opts+'</select></div>';
+ }).join('');
+ return split(textSheet(t, text), '<p class="pane-note">Die Zahl steht immer vor dem Satz, auf den sie sich bezieht.</p>'+qs);
+}
+
+function renderCategory(t, a){
+ var rows = t.statements.map(function(s,i){
+ return '<div class="grow" role="radiogroup" aria-labelledby="cs-'+i+'"><p class="g-stem" id="cs-'+i+'"><span class="q-n">'+(i+1)+'</span><span>'+s.text+'</span></p>'+
+ '<div class="g-cells">'+radioOpts('cat-'+i, 'cat', i, t.cats, a[i], 'g-cell')+'</div></div>';
+ }).join('');
+ return split(textSheet(t, paras(t.paragraphs)), rows);
+}
+
+function renderPair(t, a){
+ return split(textSheet(t, paras(t.paragraphs)), pairArea(t, a));
+}
+var PN = 2;
+function pairCap(t, k){ return k === PN ? t.statements.length - t.items : 2; }
+function pairLabel(t, k){ return k === PN ? 'passt nicht' : t.cats[k]; }
+function pairArea(t, a){
+ function card(i){
+ return '<div class="pslot filled" data-drag-i="'+i+'"><span class="drag-handle" aria-hidden="true">⠿</span><span class="ptext">'+t.statements[i].text+'</span>'+
+ '<button type="button" class="px" data-act="punassign" data-i="'+i+'" aria-label="Zuordnung entfernen">✕</button></div>';
+ }
+ function zone(label, k){
+ var cap = pairCap(t, k), ids = [], slots = '';
+ a.forEach(function(v,i){ if (v === k) ids.push(i); });
+ for (var n = 0; n < cap; n++) slots += (ids[n] !== undefined) ? card(ids[n]) : '<div class="pslot empty">frei</div>';
+ return '<div class="pcol'+(k === PN ? ' pn' : '')+'" data-drop="'+k+'"><h3 class="pcol-h"><span>'+label+'</span><span class="count">'+ids.length+'/'+cap+'</span></h3><div class="pslots">'+slots+'</div></div>';
+ }
+ var cols = t.cats.map(function(c,k){ return zone(c, k); }).join('');
+ var short = t.catsShort.concat(['passt nicht']);
+ var list = t.statements.map(function(s,i){
+ var btns = short.map(function(c,k){
+ return '<button type="button" class="pbtn'+(k === PN ? ' pbtn-pn' : '')+'" data-act="passign" data-i="'+i+'" data-k="'+k+'" id="pb-'+i+'-'+k+'" aria-pressed="'+(a[i]===k)+'">'+c+'</button>';
+ }).join('');
+ return '<li class="pst'+(a[i]!==null?' assigned':'')+'" data-drag-i="'+i+'"><p><span class="drag-handle" aria-hidden="true">⠿</span>'+s.text+'</p><div class="pbtns">'+btns+'</div></li>';
+ }).join('');
+ return '<div id="pair-area"><p class="pair-hint">Ziehen Sie die Aussagen in die passende Spalte oder tippen Sie auf eine Schaltfläche. '+
+ 'Vier Aussagen passen in keine der beiden Kategorien: Ordnen Sie diese „passt nicht“ zu. Mit ✕ oder durch Zurückziehen in die Liste entfernen Sie eine Zuordnung.</p>'+
+ '<div class="pcols">'+cols+'</div>'+zone('Passt nicht', PN)+
+ '<h3 class="col-h">Aussagen</h3><ul class="plist" data-drop="list">'+list+'</ul></div>';
+}
+
+function chartHTML(c){
+ var rows = c.data.map(function(d){
+ return '<div class="brow"><span class="blab">'+d.label+'</span><span class="btrack"><span class="bfill" style="width:'+(d.value/(c.max||100)*100)+'%"></span></span><span class="bval">'+d.value+' %</span></div>';
+ }).join('');
+ var aria = c.title + ': ' + c.data.map(function(d){ return d.label+' '+d.value+' Prozent'; }).join(', ');
+ return '<figure class="chart"><figcaption><span class="ch-t">'+c.title+'</span><span class="ch-s">'+c.subtitle+'</span></figcaption>'+
+ '<div class="bars" role="img" aria-label="'+aria+'">'+rows+'</div></figure>';
+}
+
+function renderSummary(t, a){
+ var n = a.filter(Boolean).length;
+ var sents = t.sentences.map(function(s,i){
+ return '<span class="sent'+(a[i]?' on':'')+'" role="button" tabindex="0" aria-pressed="'+(!!a[i])+'" data-act="sent" data-i="'+i+'">'+s.text+'</span>';
+ }).join(' ');
+ return split(textSheet(t, paras(t.paragraphs), chartHTML(t.chart)),
+ '<h3 class="col-h"><span>Zusammenfassung</span><span class="count" id="sum-count">'+n+' von 3 markiert</span></h3><p class="summary">'+sents+'</p>');
+}
+
+var RENDER = { gap:renderGap, order:renderOrder, mc:renderMC, speech:renderSpeech, category:renderCategory, pair:renderPair, summary:renderSummary };
+
+/* ================= Interactions ================= */
+function syncSpeech(){
+ var a = cur();
+ Array.prototype.forEach.call(app.querySelectorAll('select[data-act="speech"]'), function(sel){
+ var i = +sel.getAttribute('data-i');
+ Array.prototype.forEach.call(sel.options, function(o){
+ if (o.value === '') return;
+ var j = +o.value;
+ o.disabled = a.indexOf(j) > -1 && a[i] !== j;
+ });
+ });
+}
+
+function refreshOrder(focusId){
+ var area = document.getElementById('order-area');
+ if (!area) return;
+ area.outerHTML = orderArea(TASKS[state.idx], cur());
+ if (focusId) { var f = document.getElementById(focusId); if (f) f.focus({preventScroll:true}); }
+}
+function armChunk(j){
+ state.armed = (state.armed === j) ? null : j;
+ refreshOrder('chunk-'+j);
+ if (state.armed !== null && narrow()) {
+ var a = cur(), first = a.indexOf(null);
+ var target = document.getElementById('slot-' + (first > -1 ? first : 0));
+ if (target) target.scrollIntoView({block:'center', behavior: reduceMotion() ? 'auto' : 'smooth'});
+ }
+}
+function clickSlot(i){
+ var a = cur();
+ if (state.armed !== null) {
+ var j = state.armed, old = a.indexOf(j);
+ if (old > -1) a[old] = null;
+ a[i] = j;
+ state.armed = null;
+ } else if (a[i] !== null) {
+ a[i] = null;
+ } else {
+ toast('Tippen Sie zuerst auf einen Abschnitt.');
+ return;
+ }
+ refreshOrder('slot-'+i);
+}
+
+function refreshPair(focusId){
+ var area = document.getElementById('pair-area');
+ if (!area) return;
+ area.outerHTML = pairArea(TASKS[state.idx], cur());
+ if (focusId) { var f = document.getElementById(focusId); if (f) f.focus({preventScroll:true}); }
+}
+function assignPair(i, k, fromDrag){
+ var t = TASKS[state.idx], a = cur();
+ if (a[i] === k) {
+ if (fromDrag) return;
+ a[i] = null;
+ } else {
+ var n = a.filter(function(v){ return v === k; }).length;
+ if (n >= pairCap(t, k)) { toast('„'+pairLabel(t, k)+'“ ist schon voll. Entfernen Sie zuerst eine Aussage.'); return; }
+ a[i] = k;
+ }
+ refreshPair(fromDrag ? null : 'pb-'+i+'-'+k);
+}
+function unassignPair(i){
+ cur()[i] = null;
+ refreshPair('pb-'+i+'-0');
+}
+
+/* Drag and drop for Aufgabe 6 (mouse: whole card; touch/pen: the ⠿ handle, so the page can still scroll) */
+var drag = null, suppressClick = false;
+function dropZoneAt(x, y){
+ if (drag && drag.ghost) drag.ghost.style.display = 'none';
+ var el = document.elementFromPoint(x, y);
+ if (drag && drag.ghost) drag.ghost.style.display = '';
+ return el && el.closest ? el.closest('[data-drop]') : null;
+}
+function scrollerOf(el){
+ for (var n = el && el.parentElement; n && n !== document.body; n = n.parentElement) {
+ var oy = getComputedStyle(n).overflowY;
+ if ((oy === 'auto' || oy === 'scroll') && n.scrollHeight > n.clientHeight) return n;
+ }
+ return null;
+}
+function autoScroll(){
+ if (!drag || !drag.on) return;
+ var r = drag.scroller ? drag.scroller.getBoundingClientRect() : { top: 0, bottom: window.innerHeight };
+ var edge = 80, y = drag.lastY, v = 0;
+ if (y < r.top + edge) v = -Math.ceil((r.top + edge - y) / 5);
+ else if (y > r.bottom - edge) v = Math.ceil((y - (r.bottom - edge)) / 5);
+ if (v) { if (drag.scroller) drag.scroller.scrollTop += v; else window.scrollBy(0, v); }
+ requestAnimationFrame(autoScroll);
+}
+function clearOver(keep){
+ Array.prototype.forEach.call(document.querySelectorAll('[data-drop].over'), function(z){ if (z !== keep) z.classList.remove('over'); });
+}
+document.addEventListener('pointerdown', function(e){
+ if (state.idx < 0 || !TASKS[state.idx] || TASKS[state.idx].type !== 'pair') return;
+ var src = e.target.closest && e.target.closest('[data-drag-i]');
+ if (!src || e.button > 0 || e.target.closest('button')) return;
+ if (e.pointerType !== 'mouse' && !e.target.closest('.drag-handle')) return;
+ drag = { i: +src.getAttribute('data-drag-i'), x: e.clientX, y: e.clientY, lastY: e.clientY, on: false, ghost: null, scroller: null };
+});
+document.addEventListener('pointermove', function(e){
+ if (!drag) return;
+ if (!drag.on) {
+ if (Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) < 6) return;
+ drag.on = true;
+ var g = document.createElement('div');
+ g.className = 'drag-ghost';
+ g.textContent = TASKS[state.idx].statements[drag.i].text;
+ document.body.appendChild(g);
+ drag.ghost = g;
+ document.body.classList.add('is-dragging');
+ drag.scroller = scrollerOf(document.getElementById('pair-area'));
+ requestAnimationFrame(autoScroll);
+ }
+ drag.lastY = e.clientY;
+ e.preventDefault();
+ drag.ghost.style.transform = 'translate('+(e.clientX + 12)+'px,'+(e.clientY + 12)+'px)';
+ var over = dropZoneAt(e.clientX, e.clientY);
+ clearOver(over);
+ if (over) over.classList.add('over');
+}, { passive: false });
+function endDrag(e, cancel){
+ if (!drag) return;
+ var d = drag, zone = (!cancel && d.on) ? dropZoneAt(e.clientX, e.clientY) : null;
+ drag = null;
+ if (!d.on) return;
+ suppressClick = true;
+ setTimeout(function(){ suppressClick = false; }, 0);
+ if (d.ghost) d.ghost.remove();
+ document.body.classList.remove('is-dragging');
+ clearOver(null);
+ if (!zone) return;
+ var k = zone.getAttribute('data-drop');
+ if (k === 'list') { if (cur()[d.i] !== null) unassignPair(d.i); }
+ else assignPair(d.i, +k, true);
+}
+document.addEventListener('pointerup', function(e){ endDrag(e, false); });
+document.addEventListener('pointercancel', function(e){ endDrag(e, true); });
+document.addEventListener('click', function(e){
+ if (suppressClick) { e.stopPropagation(); e.preventDefault(); suppressClick = false; }
+}, true);
+
+function toggleSent(i, el){
+ var a = cur();
+ if (!a[i] && a.filter(Boolean).length >= 3) { toast('Es sind genau drei Sätze falsch. Heben Sie zuerst eine Markierung auf.'); return; }
+ a[i] = !a[i];
+ el.classList.toggle('on', a[i]);
+ el.setAttribute('aria-pressed', String(a[i]));
+ var c = document.getElementById('sum-count');
+ if (c) c.textContent = a.filter(Boolean).length + ' von 3 markiert';
+}
+
+function setPane(p){
+ state.pane = p;
+ var main = app.querySelector('.task');
+ if (main) main.setAttribute('data-pane', p);
+ Array.prototype.forEach.call(app.querySelectorAll('.pane-switch [data-p]'), function(b){
+ b.setAttribute('aria-selected', String(b.getAttribute('data-p') === p));
+ });
+ var sp = app.querySelector('.split'), tb = app.querySelector('.topbar'), sw = app.querySelector('.pane-switch');
+ if (sp) {
+ var offset = (tb ? tb.offsetHeight : 0) + (sw ? sw.offsetHeight : 0) + 24;
+ var y = sp.getBoundingClientRect().top + window.pageYOffset - offset;
+ if (window.pageYOffset > y) window.scrollTo(0, Math.max(0, y));
+ }
+}
+
+/* ================= Flow and timer ================= */
+function stopTimer(){ if (state.timer) { clearInterval(state.timer); state.timer = null; } }
+
+function goTo(i){
+ stopTimer();
+ state.idx = i; state.pane = 'text'; state.armed = null;
+ if (state.mode === 'exam') {
+ state.remaining = TASKS[i].minutes * 60;
+ state.deadline = Date.now() + state.remaining * 1000;
+ }
+ renderTask();
+ window.scrollTo(0, 0);
+ if (state.mode === 'exam') state.timer = setInterval(tick, 250);
+}
+
+function tick(){
+ var r = Math.max(0, Math.ceil((state.deadline - Date.now()) / 1000));
+ if (r !== state.remaining) {
+ state.remaining = r;
+ updateTimerUI();
+ if (r === 60 && state.warned !== state.idx) { state.warned = state.idx; toast('Noch 1 Minute für diese Aufgabe.'); }
+ }
+ if (r <= 0) timeUp();
+}
+
+function updateTimerUI(){
+ if (state.mode !== 'exam' || state.idx < 0) return;
+ var t = TASKS[state.idx], r = state.remaining;
+ var clock = document.getElementById('clock'), f = document.getElementById('curfill');
+ if (clock) {
+ clock.textContent = fmt(r);
+ clock.classList.toggle('warn', r <= 60);
+ clock.setAttribute('aria-label', 'Verbleibende Zeit: ' + Math.floor(r/60) + ' Minuten ' + (r % 60) + ' Sekunden');
+ }
+ if (f) {
+ f.style.width = (r / (t.minutes * 60) * 100) + '%';
+ f.parentNode.classList.toggle('warn', r <= 60);
+ }
+}
+
+function timeUp(){
+ stopTimer();
+ closeModal(true);
+ var last = state.idx === TASKS.length - 1;
+ if (last) { finish(); toast('Die Zeit ist abgelaufen. Hier ist Ihr Ergebnis.'); }
+ else { var n = state.idx + 1; goTo(state.idx + 1); toast('Die Zeit für Aufgabe '+n+' ist abgelaufen.'); }
+}
+
+function unanswered(i){
+ var t = TASKS[i], a = state.answers[i];
+ if (t.type === 'pair') return 4 - a.filter(function(v){ return v !== null; }).length;
+ if (t.type === 'summary') return 3 - a.filter(Boolean).length;
+ return a.filter(function(v){ return v === null; }).length;
+}
+function itemsText(n){ return n === 1 ? '1 Item ist' : n + ' Items sind'; }
+
+function requestNext(){
+ var last = state.idx === TASKS.length - 1;
+ if (state.mode === 'practice') {
+ if (last) requestFinish(); else goTo(state.idx + 1);
+ return;
+ }
+ var open = unanswered(state.idx);
+ var note = open > 0 ? 'Noch ' + itemsText(open) + ' in dieser Aufgabe unbearbeitet. ' : '';
+ if (last) openModal('Test beenden?', note + 'Danach sehen Sie Ihr Ergebnis mit Lösungen und Erklärungen.', 'Test beenden', finish);
+ else openModal('Weiter zu Aufgabe ' + (state.idx + 2) + '?', note + 'Wie in der Prüfung können Sie danach nicht mehr zu dieser Aufgabe zurück.', 'Weiter', function(){ goTo(state.idx + 1); });
+}
+function requestFinish(){
+ var open = sum(TASKS.map(function(_, i){ return unanswered(i); }));
+ openModal('Test auswerten?', (open > 0 ? 'Noch ' + itemsText(open) + ' unbearbeitet. ' : '') + 'Danach sehen Sie Ihr Ergebnis mit Lösungen und Erklärungen.', 'Auswerten', finish);
+}
+function requestQuit(){
+ openModal('Test beenden?', 'Nicht bearbeitete Items werden mit 0 Punkten gewertet. Danach sehen Sie Ihr Ergebnis mit Lösungen und Erklärungen.', 'Test beenden', finish);
+}
+
+function startTest(){
+ var m = app.querySelector('input[name="mode"]:checked');
+ state.mode = m ? m.value : 'exam';
+ state.warned = -1;
+ initAnswers();
+ goTo(0);
+}
+
+function finish(){
+ stopTimer();
+ closeModal(true);
+ renderResults();
+ window.scrollTo(0, 0);
+}
+
+/* ================= Scoring and results ================= */
+function scoreTask(t, a){
+ var s = 0, i;
+ switch (t.type) {
+ case 'gap': for (i = 0; i < t.gaps.length; i++) if (a[i] === t.gaps[i].answer) s++; break;
+ case 'order': for (i = 0; i < t.solution.length; i++) if (a[i] === t.solution[i]) s++; break;
+ case 'mc': for (i = 0; i < t.questions.length; i++) if (a[i] === t.questions[i].answer) s++; break;
+ case 'speech': for (i = 0; i < t.markers.length; i++) if (a[i] === t.markers[i].answer) s++; break;
+ case 'category': for (i = 0; i < t.statements.length; i++) if (a[i] === t.statements[i].answer) s++; break;
+ case 'pair': for (i = 0; i < t.statements.length; i++) if (t.statements[i].answer !== null && a[i] === t.statements[i].answer) s++; break;
+ case 'summary': for (i = 0; i < t.sentences.length; i++) if (t.sentences[i].wrong && a[i]) s++; break;
+ }
+ return s;
+}
+
+function rv(ok, label, yours, right, why){
+ return '<div class="rv '+(ok?'ok':'bad')+'"><span class="rv-mark" aria-hidden="true">'+(ok?'✓':'✗')+'</span>'+
+ '<div class="rv-body"><p class="rv-label"><span class="sr">'+(ok?'Richtig: ':'Falsch: ')+'</span>'+label+'</p>'+
+ '<p>Ihre Antwort: '+(yours == null ? '<em>keine Antwort</em>' : '<strong>'+yours+'</strong>')+'</p>'+
+ (ok ? '' : '<p>Richtig: <strong>'+right+'</strong></p>')+
+ (why ? '<p class="rv-expl">'+why+'</p>' : '')+'</div></div>';
+}
+
+var REVIEW = {
+ gap: function(t, a){
+ return t.gaps.map(function(g,i){ return rv(a[i]===g.answer, 'Lücke '+(i+1), a[i]==null?null:g.options[a[i]], g.options[g.answer], g.why); }).join('');
+ },
+ order: function(t, a){
+ return t.solution.map(function(c,i){
+ return rv(a[i]===c, 'Position '+(i+(t.first?2:1)), a[i]==null?null:'Abschnitt '+LET[a[i]], 'Abschnitt '+LET[c], t.why[i]);
+ }).join('') + '<p class="rv-note">Richtige Reihenfolge: '+(t.first?'1, ':'')+t.solution.map(function(c){ return LET[c]; }).join(', ')+'</p>';
+ },
+ mc: function(t, a){
+ return t.questions.map(function(q,i){ return rv(a[i]===q.answer, 'Frage '+(i+1)+': '+q.stem, a[i]==null?null:q.options[a[i]], q.options[q.answer], q.why); }).join('');
+ },
+ speech: function(t, a){
+ return t.markers.map(function(m,i){ return rv(a[i]===m.answer, 'Textstelle '+(i+1), a[i]==null?null:t.options[a[i]], t.options[m.answer], m.why); }).join('');
+ },
+ category: function(t, a){
+ return t.statements.map(function(s,i){ return rv(a[i]===s.answer, (i+1)+'. '+s.text, a[i]==null?null:t.cats[a[i]], t.cats[s.answer], s.why); }).join('');
+ },
+ pair: function(t, a){
+ return '<p class="rv-note">Punkte gibt es für die vier Aussagen, die in die richtige Kategorie gehören. Die Zuordnung „passt nicht“ dient Ihrer Übersicht und bringt keine Punkte.</p>' +
+ t.statements.map(function(s,i){
+ var yours = a[i] == null ? 'nicht zugeordnet' : (a[i] === 2 ? 'passt nicht' : t.cats[a[i]]);
+ var right = s.answer == null ? 'passt nicht' : t.cats[s.answer];
+ var ok = s.answer == null ? (a[i] == null || a[i] === 2) : a[i] === s.answer;
+ return rv(ok, s.text, yours, right, s.why);
+ }).join('');
+ },
+ summary: function(t, a){
+ return '<p class="rv-note">Punkte gibt es für jeden der drei falschen Sätze, den Sie markiert haben.</p>' +
+ t.sentences.map(function(s,i){
+ var ok = s.wrong ? !!a[i] : !a[i];
+ return '<div class="rv '+(ok?'ok':'bad')+'"><span class="rv-mark" aria-hidden="true">'+(ok?'✓':'✗')+'</span><div class="rv-body">'+
+ '<p class="rv-label">„'+s.text+'“</p>'+
+ '<p>Inhaltlich <strong>'+(s.wrong?'falsch':'richtig')+'</strong>. '+(a[i]?'Sie haben den Satz markiert.':'Sie haben den Satz nicht markiert.')+'</p>'+
+ '<p class="rv-expl">'+s.why+'</p></div></div>';
+ }).join('');
+ }
+};
+
+function verdict(p){
+ if (p >= 80) return 'Sehr stark. Achten Sie jetzt vor allem darauf, das Tempo auch bei schwierigen Texten zu halten.';
+ if (p >= 60) return 'Eine solide Grundlage. Sehen Sie sich die Aufgaben mit den meisten Fehlern genauer an.';
+ return 'Ein guter Ausgangspunkt. Die Erklärungen unten zeigen, wo Sie am schnellsten Punkte dazugewinnen.';
+}
+
+function renderResults(){
+ var scores = TASKS.map(function(t,i){ return scoreTask(t, state.answers[i]); });
+ var total = sum(scores), pct = Math.round(total / TOTAL_ITEMS * 100);
+ var rows = TASKS.map(function(t,i){
+ return '<li class="plan-row"><span class="plan-n">'+(i+1)+'</span><span class="plan-name">'+t.name+'</span>'+
+ '<span class="plan-meta"><strong>'+scores[i]+'</strong> von '+t.items+'</span>'+
+ '<span class="plan-bar" aria-hidden="true"><span style="width:'+(scores[i]/t.items*100)+'%"></span></span></li>';
+ }).join('');
+ var reviews = TASKS.map(function(t,i){
+ return '<details class="review"'+(i===0?' open':'')+'><summary><span class="chev" aria-hidden="true">›</span>'+
+ '<span class="rv-title">Aufgabe '+(i+1)+': '+t.name+'</span><span class="rv-score">'+scores[i]+' von '+t.items+'</span></summary>'+
+ '<div class="rv-list">'+REVIEW[t.type](t, state.answers[i])+'</div></details>';
+ }).join('');
+ app.innerHTML =
+ '<main class="wrap results">'+
+ '<header class="res-head"><h1>Ihr Ergebnis</h1>'+
+ '<p class="res-score"><span class="res-num">'+total+'</span><span>von '+TOTAL_ITEMS+' Punkten, das sind '+pct+' %.</span></p>'+
+ '<p class="fine">'+verdict(pct)+' Das Ergebnis dient nur zur Orientierung: Die offiziellen TDN-Stufen berechnet das TestDaF-Institut nach einem eigenen Verfahren.</p>'+
+ '</header>'+
+ '<h2>Punkte pro Aufgabe</h2><ol class="plan-list">'+rows+'</ol>'+
+ '<h2>Lösungen und Erklärungen</h2>'+reviews+
+ '<div class="res-actions"><button type="button" class="btn primary" data-act="restart">Zur Startseite</button></div>'+
+ '</main>';
+}
+
+/* ================= Modal and toast ================= */
+function openModal(title, text, okLabel, onOk){
+ document.getElementById('modal-h').textContent = title;
+ document.getElementById('modal-p').textContent = text;
+ var ok = document.getElementById('modal-ok');
+ ok.textContent = okLabel;
+ state.modalOk = onOk;
+ state.lastFocus = document.activeElement;
+ modal.hidden = false;
+ ok.focus();
+}
+function closeModal(skipFocus){
+ if (modal.hidden) return;
+ modal.hidden = true;
+ state.modalOk = null;
+ if (!skipFocus && state.lastFocus && document.body.contains(state.lastFocus)) state.lastFocus.focus();
+}
+function toast(msg){
+ toastEl.textContent = msg;
+ toastEl.classList.add('show');
+ clearTimeout(toastTimer);
+ toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 3400);
+}
+
+/* ================= Events ================= */
+document.addEventListener('click', function(e){
+ if (e.target === modal) { closeModal(); return; }
+ var el = e.target.closest ? e.target.closest('[data-act]') : null;
+ if (!el) return;
+ var act = el.getAttribute('data-act');
+ switch (act) {
+ case 'start': startTest(); break;
+ case 'pane': setPane(el.getAttribute('data-p')); break;
+ case 'place': armChunk(+el.getAttribute('data-j')); break;
+ case 'slot': clickSlot(+el.getAttribute('data-i')); break;
+ case 'passign': assignPair(+el.getAttribute('data-i'), +el.getAttribute('data-k')); break;
+ case 'punassign': unassignPair(+el.getAttribute('data-i')); break;
+ case 'sent': toggleSent(+el.getAttribute('data-i'), el); break;
+ case 'next': requestNext(); break;
+ case 'prev': goTo(state.idx - 1); break;
+ case 'quit': requestQuit(); break;
+ case 'restart': state.idx = -1; renderStart(); window.scrollTo(0, 0); break;
+ case 'modal-ok': { var fn = state.modalOk; closeModal(true); if (fn) fn(); break; }
+ case 'modal-cancel': closeModal(); break;
+ }
+});
+
+document.addEventListener('change', function(e){
+ var el = e.target, act = el.getAttribute && el.getAttribute('data-act');
+ if (!act || state.idx < 0) return;
+ var a = cur(), i = +el.getAttribute('data-i');
+ if (act === 'gap' || act === 'speech') {
+ a[i] = el.value === '' ? null : +el.value;
+ if (act === 'speech') syncSpeech();
+ } else if (act === 'mc' || act === 'cat') {
+ a[i] = +el.value;
+ }
+});
+
+document.addEventListener('keydown', function(e){
+ if (e.key === 'Escape' && !modal.hidden) { closeModal(); return; }
+ var s = e.target.closest ? e.target.closest('.sent') : null;
+ if (s && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggleSent(+s.getAttribute('data-i'), s); }
+});
+
+renderStart();
+})();
+</script>
+<script>
+(function () {
+ var KEY = 'testdaf:lesen:11', saved = false;
+ function check() {
+ var el = document.querySelector('.res-num');
+ if (!el) { saved = false; return; }
+ if (saved) return;
+ var score = parseInt(el.textContent, 10), sib = el.nextElementSibling;
+ var m = sib && sib.textContent.match(/von\s+(\d+)/);
+ if (isNaN(score) || !m) return;
+ saved = true;
+ try {
+ var prev = JSON.parse(localStorage.getItem(KEY) || 'null') || {};
+ localStorage.setItem(KEY, JSON.stringify({
+ last: score, max: +m[1], best: Math.max(score, prev.best || 0),
+ runs: (prev.runs || 0) + 1, at: Date.now()
+ }));
+ } catch (e) {}
+ }
+ var app = document.getElementById('app');
+ if (app && window.MutationObserver) new MutationObserver(check).observe(app, { childList: true, subtree: true });
+ document.addEventListener('click', function (e) {
+ var a = e.target.closest && e.target.closest('a[data-site-back]');
+ if (!a) return;
+ if (document.querySelector('.topbar') && !document.querySelector('.res-num') &&
+ !window.confirm('Den Test wirklich verlassen? Ihre Antworten gehen dabei verloren.')) e.preventDefault();
+ });
+})();
+</script>
+</body>
+</html>

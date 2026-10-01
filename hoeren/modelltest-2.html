@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Modelltest Hören 2: Digitaler TestDaF (Übung)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700\&family=Literata:opsz,wght@7..72,400;7..72,600\&display=swap">
+<style>
+:root{
+ --paper:#EDF1F4;--sheet:#FFFFFF;--ink:#18263A;--soft:#4B5C71;--rule:#D2DBE3;--rule-s:#A3B2C1;
+ --pen:#2346A6;--on-pen:#FFFFFF;--pen-wash:#E3E9F8;--marker:#FFE27A;--marker-ink:#18263A;
+ --alert:#B3261E;--ok:#1D7443;--ok-wash:#E1F1E7;--bad-wash:#FAE6E4;--scrim:rgba(12,18,26,.55);
+ --font-r:"Literata",Georgia,"Times New Roman",serif;
+ --font-ui:"Atkinson Hyperlegible","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ color-scheme:light;box-sizing:border-box;
+ padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --paper:#0E1319;--sheet:#161D25;--ink:#E3E9F0;--soft:#9DAEC1;--rule:#27323F;--rule-s:#44536A;
+ --pen:#8EA8FF;--on-pen:#0B1017;--pen-wash:#1B2643;--marker:#6B5911;--marker-ink:#FFF4CC;
+ --alert:#FF8E84;--ok:#6CD197;--ok-wash:#132C1F;--bad-wash:#361C1A;--scrim:rgba(0,0,0,.65);color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+ --paper:#0E1319;--sheet:#161D25;--ink:#E3E9F0;--soft:#9DAEC1;--rule:#27323F;--rule-s:#44536A;
+ --pen:#8EA8FF;--on-pen:#0B1017;--pen-wash:#1B2643;--marker:#6B5911;--marker-ink:#FFF4CC;
+ --alert:#FF8E84;--ok:#6CD197;--ok-wash:#132C1F;--bad-wash:#361C1A;--scrim:rgba(0,0,0,.65);color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{background:var(--paper);scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-ui);font-size:17px;line-height:1.5}
+a{color:var(--pen)}
+:focus-visible{outline:3px solid var(--pen);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:980px;margin:0 auto;padding-left:20px;padding-right:20px}
+h2{font-size:1.05rem;margin:0 0 12px}
+.btn{font:inherit;font-weight:700;font-size:1rem;line-height:1.2;border-radius:4px;padding:12px 22px;border:2px solid transparent;cursor:pointer}
+.btn.primary{background:var(--pen);color:var(--on-pen)}
+.btn.primary:hover{filter:brightness(1.1)}
+.btn.primary:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule-s)}
+.btn.ghost:hover{border-color:var(--pen)}
+.btn.small{padding:6px 12px;font-size:.9rem}
+.bubble{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--rule-s);background:var(--sheet);margin-top:1px}
+input:checked + .bubble{background:var(--pen);border-color:var(--pen);box-shadow:inset 0 0 0 3px var(--sheet)}
+input:focus-visible + .bubble{outline:3px solid var(--pen);outline-offset:2px}
+.opt input,.mode-opt input,.g-cell input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+
+/* start */
+.start{padding-top:56px;padding-bottom:72px;max-width:860px}
+.start h1{font-family:var(--font-r);font-weight:600;font-size:clamp(2.6rem,8vw,4.4rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 18px}
+.lede{font-size:1.15rem;max-width:56ch;color:var(--soft);margin:0 0 28px}
+.note{border-left:3px solid var(--pen);background:var(--sheet);padding:12px 16px;border-radius:0 6px 6px 0;margin:0 0 32px;max-width:64ch;font-size:.95rem}
+.note strong{display:block;margin-bottom:2px}
+.plan-list{list-style:none;padding:0;margin:0 0 40px;border-top:1px solid var(--rule)}
+.plan-row{display:grid;grid-template-columns:2.2rem minmax(0,1fr) auto;column-gap:12px;padding:12px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.plan-n{font-family:var(--font-r);font-size:1.25rem;font-weight:600;color:var(--pen);line-height:1}
+.plan-name{font-weight:700}
+.plan-meta{color:var(--soft);font-variant-numeric:tabular-nums;font-size:.95rem;white-space:nowrap}
+.mode{margin:0 0 32px}
+.mode-opt{position:relative;display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--rule);cursor:pointer;max-width:64ch}
+.mode-opt:last-child{border-bottom:1px solid var(--rule)}
+.mode-opt small{display:block;color:var(--soft);font-size:.95rem}
+.fine{font-size:.92rem;color:var(--soft);max-width:64ch;margin:28px 0 0}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--rule)}
+.topbar-in{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:10px;padding-bottom:8px}
+.tb-left{display:flex;align-items:center;gap:10px;font-size:.95rem;min-width:0}
+.tb-sep{width:1px;height:16px;background:var(--rule-s)}
+.tb-right{display:flex;align-items:center;gap:12px}
+.phase{font-size:.9rem;color:var(--soft);white-space:nowrap}
+.clock{font-weight:700;font-size:1.3rem;font-variant-numeric:tabular-nums;min-width:4.4ch;text-align:right}
+.clock.warn{color:var(--alert)}
+.track{display:flex;gap:4px;padding-bottom:10px}
+.seg{flex:1 1 0;height:6px;background:var(--pen-wash);border-radius:3px;overflow:hidden}
+.seg .fill{display:block;height:100%;width:0;background:var(--pen)}
+.seg.done .fill{width:100%;background:var(--rule-s)}
+
+/* task */
+.task{padding-top:24px;padding-bottom:56px}
+.task-title{font-family:var(--font-r);font-weight:600;font-size:clamp(1.45rem,3.2vw,1.95rem);letter-spacing:-.01em;line-height:1.2;margin:0 0 12px}
+.instr{border-left:3px solid var(--pen);padding:2px 0 2px 14px;margin:0 0 20px;color:var(--soft);max-width:74ch}
+.instr p{margin:0 0 3px}
+
+/* player */
+.player{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:14px 18px;margin:0 0 22px}
+.pl-btn{font:inherit;font-weight:700;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:4px;border:0;background:var(--pen);color:var(--on-pen);cursor:pointer}
+.pl-btn:disabled{opacity:.45;cursor:not-allowed}
+.pl-main{flex:1;min-width:180px}
+.pl-status{font-weight:700;font-size:.95rem;margin:0 0 6px}
+.pl-status.live{color:var(--ok)}
+.pl-bar{height:6px;background:var(--pen-wash);border-radius:3px;overflow:hidden}
+.pl-fill{height:100%;width:0;background:var(--pen)}
+.pl-time{display:flex;justify-content:space-between;font-size:.82rem;color:var(--soft);font-variant-numeric:tabular-nums;margin-top:4px}
+.eq{display:inline-flex;gap:2px;align-items:flex-end;height:14px}
+.eq i{display:block;width:3px;background:currentColor;animation:eq 1s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:.2s}.eq i:nth-child(3){animation-delay:.4s}
+@keyframes eq{0%,100%{height:4px}50%{height:14px}}
+
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:clamp(16px,3vw,28px)}
+.hidden-note{color:var(--soft);font-style:italic;margin:0}
+
+/* T1 table */
+.tbl-wrap{overflow-x:auto}
+table.ov{border-collapse:collapse;width:100%;min-width:640px;font-size:.93rem}
+table.ov caption{font-family:var(--font-r);font-weight:600;font-size:1.15rem;text-align:left;margin:0 0 12px}
+table.ov th,table.ov td{border:1px solid var(--rule);padding:9px 10px;text-align:left;vertical-align:top}
+table.ov thead th{background:var(--pen-wash);color:var(--pen)}
+table.ov tbody th{background:var(--paper);font-weight:700;white-space:nowrap}
+.sub{display:block;color:var(--soft);font-size:.85rem;margin-top:6px}
+.fill-in{width:100%;min-width:110px;font:inherit;font-size:.95rem;color:var(--ink);background:var(--pen-wash);border:0;border-bottom:2px solid var(--pen);border-radius:3px 3px 0 0;padding:5px 6px;margin-top:2px}
+.fill-in::placeholder{color:var(--soft)}
+.fill-n{font-size:.75rem;font-weight:700;color:var(--pen);margin-right:3px}
+
+/* T2 */
+.pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pair-col{border:1px solid var(--rule-s);border-radius:6px;padding:14px}
+.pair-col h3{margin:0 0 10px;font-size:1rem}
+.pair-col label{display:block;font-size:.88rem;font-weight:700;color:var(--pen);margin:10px 0 4px}
+.pair-col textarea{width:100%;font:inherit;font-size:.95rem;color:var(--ink);background:var(--sheet);border:1px solid var(--rule-s);border-radius:4px;padding:8px;resize:vertical;min-height:58px}
+
+/* T3 */
+.notes{width:100%;font:inherit;font-size:.95rem;color:var(--ink);background:var(--sheet);border:1px dashed var(--rule-s);border-radius:6px;padding:10px;min-height:110px;resize:vertical;margin:0 0 18px}
+.summary{font-family:var(--font-r);font-size:1.05rem;line-height:1.95;margin:0}
+.sent{cursor:pointer;border-radius:3px;padding:2px 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.sent:hover{background:var(--pen-wash)}
+.sent.on{background:var(--marker);color:var(--marker-ink)}
+.count{font-weight:400;color:var(--soft);font-variant-numeric:tabular-nums;font-size:.92rem}
+.col-h{font-size:1rem;margin:0 0 12px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+
+/* T4 */
+.grow{border-top:1px solid var(--rule);padding:14px 0}
+.grow:first-child{border-top:0;padding-top:0}
+.g-stem{font-weight:700;display:flex;gap:10px;margin:0 0 10px}
+.q-n{flex:none;font-family:var(--font-r);font-weight:600;color:var(--pen);min-width:1.3em}
+.g-cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.g-cell{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;padding:7px 2px;border-radius:4px;cursor:pointer;text-align:center}
+.g-cell:hover{background:var(--pen-wash)}
+.g-lab{font-size:.84rem;color:var(--soft);line-height:1.2}
+input:checked ~ .g-lab{color:var(--ink);font-weight:700}
+
+/* T5 */
+.outline{display:grid;gap:14px}
+.ol-row{display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:12px;align-items:start}
+.ol-label{font-weight:700;padding-top:6px}
+
+/* T6 */
+.q{border-top:1px solid var(--rule);padding:16px 0 12px}
+.q:first-child{border-top:0;padding-top:0}
+.q-stem{font-weight:700;margin:0 0 8px;display:flex;gap:10px}
+.opt{position:relative;display:flex;gap:12px;align-items:flex-start;padding:8px;margin:0 -8px;border-radius:4px;cursor:pointer}
+.opt:hover{background:var(--pen-wash)}
+
+/* T7 */
+.read-along{font-family:var(--font-r);font-size:1.08rem;line-height:2;margin:0}
+.w{cursor:pointer;border-radius:3px;padding:1px 1px}
+.w:hover{background:var(--pen-wash)}
+.w.on{background:var(--marker);color:var(--marker-ink)}
+
+/* nav */
+.task-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:32px;padding-top:20px;border-top:1px solid var(--rule);flex-wrap:wrap}
+.nav-note{color:var(--soft);font-size:.92rem}
+
+/* results */
+.results{padding-top:52px;padding-bottom:72px;max-width:900px}
+.res-head h1{font-family:var(--font-r);font-weight:600;font-size:clamp(2.1rem,5vw,3rem);letter-spacing:-.015em;margin:0 0 12px}
+.res-score{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-size:1.2rem;margin:0}
+.res-num{font-family:var(--font-r);font-weight:600;font-size:clamp(3.4rem,10vw,5.2rem);line-height:1;color:var(--pen)}
+.res-head{margin-bottom:36px}
+.plan-bar{grid-column:2 / -1;height:6px;background:var(--pen-wash);border-radius:3px;overflow:hidden;margin-top:6px}
+.plan-bar>span{display:block;height:100%;background:var(--pen)}
+details.review{border-top:1px solid var(--rule);padding:14px 0}
+details.review:last-of-type{border-bottom:1px solid var(--rule)}
+details.review summary{cursor:pointer;font-weight:700;display:flex;align-items:baseline;gap:10px;list-style:none}
+details.review summary::-webkit-details-marker{display:none}
+.chev{display:inline-block;color:var(--pen);font-size:1.3rem;line-height:1;transition:transform .15s}
+details[open] > summary .chev{transform:rotate(90deg)}
+.rv-title{flex:1}
+.rv-score{font-variant-numeric:tabular-nums;color:var(--soft);white-space:nowrap}
+.rv{display:flex;gap:12px;padding:12px 0;border-top:1px dashed var(--rule)}
+.rv:first-child{border-top:0}
+.rv-mark{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.rv.ok .rv-mark{background:var(--ok-wash);color:var(--ok)}
+.rv.bad .rv-mark{background:var(--bad-wash);color:var(--alert)}
+.rv-body p{margin:0 0 4px}
+.rv-label{font-weight:700}
+.rv-expl{color:var(--soft);font-size:.95rem}
+.rv-note{color:var(--soft);font-size:.95rem;margin:8px 0 4px}
+details.tr{margin-top:14px;background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:10px 14px}
+details.tr summary{cursor:pointer;font-weight:700;color:var(--pen)}
+.tr p{margin:8px 0 0;font-family:var(--font-r);font-size:.98rem;line-height:1.7}
+.tr b{font-family:var(--font-ui)}
+
+/* modal / toast */
+.modal{position:fixed;inset:0;background:var(--scrim);display:grid;place-items:center;padding:20px;z-index:50}
+.modal[hidden]{display:none}
+.modal-box{background:var(--sheet);color:var(--ink);border:1px solid var(--rule);border-radius:8px;padding:24px;max-width:460px;width:100%}
+.modal-box h2{font-family:var(--font-r);font-weight:600;font-size:1.35rem;margin:0 0 8px}
+.modal-box p{margin:0;color:var(--soft)}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;flex-wrap:wrap}
+.toast{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;padding:0 16px calc(env(safe-area-inset-bottom,0px) + 16px);pointer-events:none;z-index:60}
+.toast-msg{background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:6px;font-weight:700;max-width:520px;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s}
+.toast-msg.show{opacity:1;transform:none}
+
+@media (max-width:700px){
+ .pair-grid{grid-template-columns:1fr}
+ .ol-row{grid-template-columns:1fr;gap:4px}
+ .ol-label{padding-top:0}
+ .wrap{padding-left:14px;padding-right:14px}
+ .tb-left strong,.tb-sep{display:none}
+ .phase{display:none}
+}
+</style>
+<style>.site-back{max-width:980px;margin:0 auto;padding:12px 20px 0;font-family:var(--font-ui);font-size:.95rem}.site-back a{color:var(--pen);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:.4em;padding:6px 0}.site-back a:hover{text-decoration:underline}.site-back a:focus-visible{outline:3px solid var(--pen);outline-offset:2px;border-radius:4px}</style>
+</head>
+<body>
+<nav class="site-back" aria-label="Website"><a href="../index.html" data-site-back><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2 4 7l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Alle Modelltests</a></nav>
+<div id="app"></div>
+<audio id="player" preload="auto"></audio>
+
+<div class="modal" id="modal" hidden>
+ <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-h" aria-describedby="modal-p">
+ <h2 id="modal-h"></h2>
+ <p id="modal-p"></p>
+ <div class="modal-actions">
+ <button type="button" class="btn ghost" data-act="modal-cancel">Abbrechen</button>
+ <button type="button" class="btn primary" data-act="modal-ok" id="modal-ok"></button>
+ </div>
+ </div>
+</div>
+<div class="toast" aria-live="polite"><div class="toast-msg" id="toast"></div></div>
+
+<script>
+var AUDIO = {"t1": {"src": "audio/2/t1.mp3", "dur": 111.8}, "t2": {"src": "audio/2/t2.mp3", "dur": 71.8}, "t3": {"src": "audio/2/t3.mp3", "dur": 86.2}, "t4": {"src": "audio/2/t4.mp3", "dur": 90.8}, "t5": {"src": "audio/2/t5.mp3", "dur": 70.7}, "t6": {"src": "audio/2/t6.mp3", "dur": 90.9}, "t7": {"src": "audio/2/t7.mp3", "dur": 28.2}};
+var SILENT = "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//NwwAAAAAAAAAAAAEluZm8AAAAPAAAADAAABZwAMjIyMjIyMjJFRUVFRUVFRVhYWFhYWFhYampqampqampqfX19fX19fX2QkJCQkJCQkKKioqKioqKiorW1tbW1tbW1yMjIyMjIyMja2tra2tra2trt7e3t7e3t7f//////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQDNwAAAAAAAAWcHqGxZwAAAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NAxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80DEpAAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsSjAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NCxKMAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NAxKQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/80LEowAAA0gAAAAAVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=";
+var TRANSCRIPTS = {"t1": [{"s": "Lukas", "g": "m", "text": "Hi Aylin! Du hilfst doch bei der Orientierungswoche für internationale Studierende, oder? Ich bin nächste Woche auch dabei, aber beim Programm blicke ich noch nicht ganz durch."}, {"s": "Aylin", "g": "f", "text": "Hallo Lukas! Klar, ich erkläre es dir gern. Was willst du wissen?"}, {"s": "Lukas", "g": "m", "text": "Fangen wir mit Montag an. Was passiert da?"}, {"s": "Aylin", "g": "f", "text": "Am Montagvormittag begrüßt die Präsidentin alle neuen Studierenden im Audimax. Am Nachmittag gibt es dann einen Rundgang über den Campus. Treffpunkt ist am Haupteingang."}, {"s": "Lukas", "g": "m", "text": "Und am Dienstag?"}, {"s": "Aylin", "g": "f", "text": "Am Dienstagvormittag gibt es eine Einführung in die Bibliothek. Da lernt man, wie man Bücher ausleiht und die Datenbanken benutzt. Und nachmittags hält jemand vom Studierendenwerk einen Vortrag zum Thema Wohnungssuche. Der sollte eigentlich im Hörsaal fünf stattfinden, aber der wird gerade renoviert. Deshalb sind wir in den Hörsaal zwei umgezogen."}, {"s": "Lukas", "g": "m", "text": "Hörsaal zwei, okay. Die Wohnungssuche ist für mich total wichtig, ich wohne im Moment noch bei einem Freund. Was ist am Mittwoch?"}, {"s": "Aylin", "g": "f", "text": "Am Mittwochvormittag machen alle einen Sprachtest im Sprachenzentrum. Danach weiß man, welcher Deutschkurs am besten passt. Und am Nachmittag machen wir eine Stadtführung. Wir treffen uns am Rathausplatz."}, {"s": "Lukas", "g": "m", "text": "Muss ich mich eigentlich für irgendetwas anmelden?"}, {"s": "Aylin", "g": "f", "text": "Nur für die Stadtführung, weil die Gruppen höchstens dreißig Personen haben dürfen. Für alles andere musst du dich nicht anmelden."}, {"s": "Lukas", "g": "m", "text": "Gut. Und der Donnerstag?"}, {"s": "Aylin", "g": "f", "text": "Am Donnerstagvormittag bekommst du im Studienbüro eine Beratung zu deinem Stundenplan. Deinen Reisepass brauchst du dafür nicht, aber bring unbedingt deinen Zulassungsbescheid mit. Und am Nachmittag feiern wir in der Mensa den Abschluss, mit einem großen Buffet."}], "t2": [{"s": "Moderatorin", "g": "f", "text": "Herzlich willkommen zu unserer Diskussion. Immer mehr Vorlesungen sind nur halb besucht. Einige Hochschulen überlegen deshalb, wieder eine Anwesenheitspflicht einzuführen. Bei mir sind Frau Professorin Keller aus der Fakultät für Wirtschaftswissenschaften und Herr Yilmaz vom Allgemeinen Studierendenausschuss. Frau Keller, wie ist Ihre Position?"}, {"s": "Frau Keller", "g": "f", "text": "Ich fordere eine Anwesenheitspflicht, zumindest für Seminare und Übungen. Dort lebt der Unterricht vom Austausch. Wenn jede Woche andere Leute kommen, kann keine echte Diskussion entstehen, und diejenigen, die regelmäßig da sind, werden ausgebremst."}, {"s": "Moderatorin", "g": "f", "text": "Herr Yilmaz, was sagen Sie dazu?"}, {"s": "Herr Yilmaz", "g": "m", "text": "Ich halte eine Pflicht für den falschen Weg. Wir fordern stattdessen, dass alle Vorlesungen aufgezeichnet und online zur Verfügung gestellt werden. Viele Studierende arbeiten nebenher oder pflegen Angehörige. Für sie ist es schlicht unmöglich, jede Woche zu festen Zeiten im Hörsaal zu sitzen."}, {"s": "Moderatorin", "g": "f", "text": "Frau Keller, ein letztes Wort?"}, {"s": "Frau Keller", "g": "f", "text": "Aufzeichnungen sind für Vorlesungen sinnvoll, da stimme ich zu. Aber ein Seminar kann man nicht aufzeichnen. Wer mitdiskutieren will, muss da sein."}], "t3": [{"s": "Dozentin", "g": "f", "text": "Guten Tag. In der heutigen Sitzung geht es um einen Umweltfaktor, der oft unterschätzt wird: den Lärm."}, {"s": "Dozentin", "g": "f", "text": "Die wichtigste Lärmquelle in Deutschland ist der Straßenverkehr. Befragungen zeigen, dass sich etwa drei Viertel der Bevölkerung durch Verkehrslärm gestört fühlen. Deutlich seltener werden Fluglärm oder Lärm aus der Nachbarschaft genannt."}, {"s": "Dozentin", "g": "f", "text": "Viele Menschen glauben, man könne sich an Lärm gewöhnen. Das stimmt nur zum Teil. Zwar nehmen wir ein gleichmäßiges Geräusch nach einiger Zeit weniger bewusst wahr. Der Körper reagiert aber weiterhin: Auch im Schlaf schüttet er Stresshormone aus, der Puls steigt, und der Schlaf wird weniger erholsam."}, {"s": "Dozentin", "g": "f", "text": "Langfristig kann dauerhafter Lärm deshalb ernsthafte Folgen haben. Studien zeigen einen Zusammenhang zwischen nächtlichem Verkehrslärm und Bluthochdruck sowie einem erhöhten Risiko für Herzinfarkte. Die Weltgesundheitsorganisation empfiehlt daher, dass der Straßenverkehrslärm im Durchschnitt unter dreiundfünfzig Dezibel bleiben sollte."}, {"s": "Dozentin", "g": "f", "text": "Was kann man dagegen tun? Wirksam sind zum Beispiel sogenannte Flüsterasphalte, niedrigere Geschwindigkeiten in Wohngebieten und Lärmschutzwände. Auch Grünflächen helfen: Sie senken den Lärm zwar messbar nur wenig, werden von den Anwohnern aber als deutlich ruhiger empfunden."}], "t4": [{"s": "Moderatorin", "g": "f", "text": "Willkommen zu unserer Diskussion. Immer mehr Masterstudiengänge in Deutschland werden ausschließlich auf Englisch angeboten. Ist das eine gute Entwicklung? Bei mir sind Herr Professor Brandt, Leiter eines internationalen Masterprogramms, und Frau Doktor Nowak, Sprachwissenschaftlerin. Herr Brandt, Sie sind ein Befürworter."}, {"s": "Herr Brandt", "g": "m", "text": "Ja. Englisch ist die Sprache der Wissenschaft. Wenn wir die besten Köpfe aus aller Welt an unsere Hochschulen holen wollen, müssen wir ihnen Studiengänge anbieten, die sie ohne jahrelangen Sprachunterricht beginnen können. Außerdem veröffentlichen unsere Forschenden ohnehin fast nur auf Englisch."}, {"s": "Moderatorin", "g": "f", "text": "Frau Nowak?"}, {"s": "Frau Nowak", "g": "f", "text": "Ich sehe die Entwicklung kritisch. Wer nur auf Englisch studiert, lernt oft kaum Deutsch und findet deshalb nach dem Abschluss schwerer eine Stelle in Deutschland. Dabei brauchen wir diese Fachkräfte dringend. Und ich bezweifle, dass die Lehre auf Englisch immer gleich gut ist. Nicht alle Dozierenden beherrschen die Sprache wirklich sicher."}, {"s": "Herr Brandt", "g": "m", "text": "Den Arbeitsmarkt sollten wir tatsächlich ernst nehmen, da haben Sie recht. Viele internationale Absolventen verlassen Deutschland wieder, weil ihnen die Sprache fehlt. Deshalb bieten wir in unserem Programm kostenlose Deutschkurse an, und die sind sehr gefragt."}, {"s": "Frau Nowak", "g": "f", "text": "Das ist ein guter Anfang. Aber solange diese Kurse freiwillig sind, erreichen sie nicht alle. Ich würde Deutschkurse in allen englischsprachigen Studiengängen zur Pflicht machen."}], "t5": [{"s": "Dozent", "g": "m", "text": "Guten Morgen. Heute beschäftigen wir uns mit der Photovoltaik, also mit der direkten Umwandlung von Sonnenlicht in elektrischen Strom."}, {"s": "Dozent", "g": "m", "text": "Das Grundprinzip wurde bereits im neunzehnten Jahrhundert entdeckt. Trifft Licht auf bestimmte Materialien, sogenannte Halbleiter, werden darin Elektronen in Bewegung gesetzt, und es fließt Strom. Das mit Abstand wichtigste Material ist heute Silizium, das aus gewöhnlichem Sand gewonnen wird."}, {"s": "Dozent", "g": "m", "text": "Ein zentraler Begriff ist der Wirkungsgrad. Er gibt an, welcher Anteil der eingestrahlten Sonnenenergie tatsächlich in Strom umgewandelt wird. Handelsübliche Solarmodule erreichen heute etwa zwanzig bis dreiundzwanzig Prozent. Der Rest geht vor allem als Wärme verloren."}, {"s": "Dozent", "g": "m", "text": "Das größte Problem der Photovoltaik ist nicht die Technik, sondern das Wetter und die Tageszeit: Nachts und bei dichten Wolken liefern die Anlagen kaum Strom. Deshalb gewinnen Speicher an Bedeutung, zum Beispiel große Batterien, die tagsüber überschüssigen Strom aufnehmen und abends wieder abgeben."}, {"s": "Dozent", "g": "m", "text": "Zum Schluss noch ein Blick auf die Kosten: Die Preise für Solarmodule sind in den letzten zwanzig Jahren um mehr als neunzig Prozent gefallen. Solarstrom gehört damit heute zu den günstigsten Formen der Stromerzeugung."}], "t6": [{"s": "Referentin", "g": "f", "text": "Guten Abend. Heute möchte ich Ihnen Ergebnisse unserer Untersuchung zu Lerngruppen an Hochschulen vorstellen. Wir haben dafür ein Semester lang mehr als fünfhundert Studierende begleitet."}, {"s": "Referentin", "g": "f", "text": "Zunächst eine überraschende Zahl: Fast zwei Drittel der Befragten lernen zumindest gelegentlich in einer Gruppe. Allerdings sind sich viele nicht sicher, ob sich das wirklich lohnt."}, {"s": "Referentin", "g": "f", "text": "Unsere Ergebnisse zeigen: Es kommt auf die Größe an. Am meisten profitierten Gruppen mit drei bis vier Mitgliedern. In größeren Gruppen verteilte sich die Arbeit ungleich, und einzelne Mitglieder zogen sich zurück."}, {"s": "Referentin", "g": "f", "text": "Noch wichtiger als die Größe war allerdings die Struktur. Gruppen, die sich vorher ein klares Ziel setzten und die Themen untereinander aufteilten, schnitten in den Prüfungen deutlich besser ab als Gruppen, die sich einfach trafen und gemeinsam lasen. Besonders wirksam war es, wenn sich die Mitglieder den Stoff gegenseitig erklärten. Denn wer etwas erklärt, muss es selbst verstanden haben."}, {"s": "Referentin", "g": "f", "text": "Einen Nachteil wollen wir nicht verschweigen: Ohne feste Regeln verwandelten sich viele Treffen schnell in gemütliche Kaffeerunden, in denen wenig gelernt wurde."}, {"s": "Referentin", "g": "f", "text": "Unser Fazit lautet deshalb: Lerngruppen können sehr wirkungsvoll sein, aber nur, wenn sie klein und gut organisiert sind. Wir empfehlen, das eigenständige Lernen nicht durch die Gruppe zu ersetzen, sondern es durch die Gruppe zu ergänzen."}], "t7": [{"s": "Sprecher", "g": "m", "text": "Viele Studierende trinken vor dem Lernen eine Tasse Kaffee, um munterer zu werden. Tatsächlich kann Koffein die Aufmerksamkeit für mehrere Stunden verbessern. Die Wirkung setzt allerdings erst nach etwa dreißig Minuten ein. Wer regelmäßig große Mengen trinkt, gewöhnt sich außerdem an den Effekt und braucht immer mehr, um dieselbe Wirkung zu spüren. Fachleute empfehlen deshalb, Kaffee gezielt einzusetzen und am Nachmittag darauf zu verzichten, damit der Schlaf nicht leidet."}]};
+</script>
+<script>
+(function () {
+'use strict';
+
+/* ================= Content ================= */
+var TEST_NO = 2;
+var TASKS = [
+{
+ id:'t1', type:'table', name:'Übersicht ergänzen', items:5, prep:15, post:20,
+ intro:['Sie hören ein Gespräch zwischen zwei Studierenden über die Orientierungswoche für internationale Studierende. Sie hören das Gespräch einmal.',
+ 'Ergänzen Sie beim Hören die fünf leeren Felder in der Tabelle. Schreiben Sie pro Feld maximal zwei Wörter.',
+ 'Die Items folgen nicht dem Textverlauf.'],
+ caption:'Orientierungswoche für internationale Studierende',
+ tableHTML:'<thead><tr><th scope="col"></th><th scope="col">Montag</th><th scope="col">Dienstag</th><th scope="col">Mittwoch</th><th scope="col">Donnerstag</th></tr></thead><tbody>'+
+ '<tr><th scope="row">Anmeldung nur für</th><td colspan="4">{b0}</td></tr>'+
+ '<tr><th scope="row">Vormittag: Was?</th><td>Begrüßung durch die Präsidentin</td><td>Einführung in die Bibliothek</td><td>{b1}</td><td>Beratung zum Stundenplan</td></tr>'+
+ '<tr><th scope="row">Vormittag: Wo?</th><td>Audimax</td><td>Bibliothek</td><td>Sprachenzentrum</td><td>Studienbüro<span class="sub">Bitte mitbringen:</span>{b4}</td></tr>'+
+ '<tr><th scope="row">Nachmittag: Was?</th><td>Campusrundgang</td><td>Vortrag zum Thema:{b2}</td><td>Stadtführung</td><td>Abschlussfest mit Buffet</td></tr>'+
+ '<tr><th scope="row">Nachmittag: Wo?</th><td>Treffpunkt: Haupteingang</td><td>{b3}</td><td>Treffpunkt: Rathausplatz</td><td>Mensa</td></tr></tbody>',
+ blanks:[
+ {answer:'Stadtführung', need:[/stadtf/]},
+ {answer:'Sprachtest', need:[/sprach|einstuf/, /test|prüf/]},
+ {answer:'Wohnungssuche', need:[/wohnung/]},
+ {answer:'Hörsaal 2', need:[/(^|[^0-9])2([^0-9]|$)|zwei/]},
+ {answer:'Zulassungsbescheid', need:[/zulassung/]}
+ ],
+ why:['Anmelden muss man sich nur für die Stadtführung, weil die Gruppen höchstens dreißig Personen haben dürfen.',
+ 'Am Mittwochvormittag machen alle einen Sprachtest im Sprachenzentrum.',
+ 'Der Vortrag am Dienstagnachmittag hat das Thema Wohnungssuche.',
+ 'Geplant war Hörsaal 5, der wird aber renoviert. Deshalb findet der Vortrag in Hörsaal 2 statt.',
+ 'Den Reisepass braucht man nicht, aber unbedingt den Zulassungsbescheid.']
+},
+{
+ id:'t2', type:'pair', name:'Textstellen zu Begriffspaar notieren', items:4, prep:20, post:180,
+ intro:['Sie hören eine Podiumsdiskussion zum Thema „Anwesenheitspflicht an Hochschulen“. Sie hören das Gespräch einmal.',
+ 'Notieren Sie für jede Person, was die Person fordert, und ein dazugehöriges Argument in Stichpunkten.'],
+ persons:[
+ {name:'Frau Prof. Keller', f:{answer:'Anwesenheitspflicht für Seminare und Übungen', need:[/anwesen|pflicht|teilnahme|präsenz/]},
+ a:{answer:'Unterricht lebt vom Austausch; ohne regelmäßige Teilnehmende keine echte Diskussion', need:[/austausch|diskussion|diskut|regelmäßig/]}},
+ {name:'Herr Yilmaz', f:{answer:'alle Vorlesungen aufzeichnen und online stellen', need:[/aufzeichn|aufnehm|aufgenommen|online|video/]},
+ a:{answer:'viele arbeiten nebenher oder pflegen Angehörige und können nicht zu festen Zeiten kommen', need:[/arbeit|job|pfleg|angehörig|feste zeit|zeiten/]}}
+ ]
+},
+{
+ id:'t3', type:'summary', name:'Fehler in Zusammenfassung erkennen', items:2, prep:0, post:150,
+ intro:['Sie hören einen Ausschnitt aus einer Vorlesung zum Thema „Lärm und Gesundheit“. Sie hören den Text einmal.',
+ 'Machen Sie sich beim Hören Notizen. Nach dem Hörtext sehen Sie eine Zusammenfassung.',
+ 'Klicken Sie auf die zwei Sätze, die falsche Informationen enthalten. Ein zweiter Klick löscht die Auswahl wieder.'],
+ sentences:[
+ {text:'Der Straßenverkehr ist in Deutschland die wichtigste Lärmquelle.', wrong:false, why:'So beginnt die Dozentin ihre Ausführungen.'},
+ {text:'Fluglärm stört laut Befragungen mehr Menschen als Verkehrslärm.', wrong:true, why:'Fluglärm wird „deutlich seltener“ genannt als Verkehrslärm, der etwa drei Viertel der Bevölkerung stört.'},
+ {text:'An gleichmäßige Geräusche gewöhnt man sich nur teilweise.', wrong:false, why:'Man nimmt sie weniger bewusst wahr, der Körper reagiert aber weiterhin.'},
+ {text:'Im Schlaf reagiert der Körper nicht mehr auf Lärm.', wrong:true, why:'Auch im Schlaf schüttet der Körper Stresshormone aus, und der Puls steigt.'},
+ {text:'Nächtlicher Verkehrslärm kann das Risiko für Herz-Kreislauf-Erkrankungen erhöhen.', wrong:false, why:'Genannt werden Bluthochdruck und ein erhöhtes Herzinfarktrisiko.'},
+ {text:'Die Weltgesundheitsorganisation empfiehlt einen Richtwert für Straßenverkehrslärm.', wrong:false, why:'Der Lärm sollte im Durchschnitt unter 53 Dezibel bleiben.'},
+ {text:'Grünflächen wirken auf Anwohner ruhiger, als es die Messwerte vermuten lassen.', wrong:false, why:'Sie senken den Lärm messbar nur wenig, werden aber als deutlich ruhiger empfunden.'}
+ ]
+},
+{
+ id:'t4', type:'persons', name:'Aussagen Personen zuordnen', items:6, prep:45, post:45,
+ intro:['Sie hören eine Podiumsdiskussion zum Thema „Englisch als Unterrichtssprache“. Sie hören das Gespräch einmal.',
+ 'Klicken Sie an, zu wem die Aussagen 1–6 passen. Für jede Aussage gibt es genau eine richtige Lösung.'],
+ note:'In der Prüfung ist das ein Video. Hier hören Sie die Tonspur.',
+ cats:['Herr Brandt','Frau Nowak','beide','keiner'],
+ statements:[
+ {text:'Nicht alle Lehrenden beherrschen Englisch sicher genug.', answer:1, why:'Frau Nowak: „Nicht alle Dozierenden beherrschen die Sprache wirklich sicher.“'},
+ {text:'In der Forschung wird fast nur auf Englisch veröffentlicht.', answer:0, why:'Herr Brandt: Die Forschenden veröffentlichen „ohnehin fast nur auf Englisch“.'},
+ {text:'Fehlende Deutschkenntnisse erschweren den Berufseinstieg in Deutschland.', answer:2, why:'Frau Nowak sagt es, und Herr Brandt gibt ihr recht: Viele verlassen Deutschland, weil ihnen die Sprache fehlt.'},
+ {text:'Englischsprachige Studiengänge sind für die Hochschulen zu teuer.', answer:3, why:'Über Kosten spricht keiner der beiden.'},
+ {text:'Das eigene Programm bietet kostenlose Deutschkurse an.', answer:0, why:'Herr Brandt: „Deshalb bieten wir in unserem Programm kostenlose Deutschkurse an.“'},
+ {text:'Deutschkurse sollten in allen englischsprachigen Studiengängen verpflichtend sein.', answer:1, why:'Frau Nowak würde sie „zur Pflicht machen“.'}
+ ]
+},
+{
+ id:'t5', type:'outline', name:'Gliederungspunkte zu Vortrag ergänzen', items:4, prep:10, post:180,
+ intro:['Sie hören einen Ausschnitt aus einer Vorlesung zum Thema „Photovoltaik“. Sie hören den Text einmal.',
+ 'Ergänzen Sie beim Hören die Gliederungspunkte in Stichpunkten.'],
+ note:'In der Prüfung ist das ein Video. Hier hören Sie die Tonspur.',
+ points:[
+ {label:'Wichtigstes Material:', answer:'Silizium (aus Sand gewonnen)', need:[/silizium|silicium/]},
+ {label:'Bedeutung von „Wirkungsgrad“:', answer:'Anteil der Sonnenenergie, der in Strom umgewandelt wird', need:[/anteil|prozent|umgewandelt|umwandl|strom/]},
+ {label:'Größtes Problem:', answer:'nachts und bei dichten Wolken kaum Strom', need:[/nacht|wolke|wetter|tageszeit|dunkel/]},
+ {label:'Lösung für dieses Problem:', answer:'Speicher, z. B. große Batterien', need:[/speicher|batterie|akku/]}
+ ]
+},
+{
+ id:'t6', type:'mc', name:'Multiple-Choice', items:5, prep:90, post:90,
+ intro:['Sie hören einen Ausschnitt aus einem Vortrag zum Thema „Lerngruppen“. Sie hören den Text einmal.',
+ 'Beantworten Sie die Fragen 1–5. Für jede Frage gibt es genau eine richtige Lösung.'],
+ questions:[
+ {stem:'Wie viele Befragte lernen zumindest gelegentlich in einer Gruppe?', options:['etwa ein Drittel','etwa die Hälfte','fast zwei Drittel','fast alle'], answer:2, why:'„Fast zwei Drittel der Befragten lernen zumindest gelegentlich in einer Gruppe.“'},
+ {stem:'Welche Gruppengröße war laut der Studie am erfolgreichsten?', options:['zwei Personen','drei bis vier Personen','fünf bis sechs Personen','Die Größe spielte keine Rolle.'], answer:1, why:'Am meisten profitierten Gruppen mit drei bis vier Mitgliedern.'},
+ {stem:'Besonders wirksam war es, wenn die Mitglieder …', options:['sich den Stoff gegenseitig erklärten.','gemeinsam Texte lasen.','sich jeden Tag trafen.','unterschiedliche Fächer studierten.'], answer:0, why:'„Wer etwas erklärt, muss es selbst verstanden haben.“ Gemeinsames Lesen war dagegen weniger erfolgreich.'},
+ {stem:'Welchen Nachteil nennt die Referentin?', options:['Lerngruppen kosten viel Geld.','Ohne Regeln wird bei den Treffen oft wenig gelernt.','Lerngruppen führen zu schlechteren Noten.','Viele Studierende finden keine Gruppe.'], answer:1, why:'Ohne feste Regeln wurden viele Treffen zu „gemütlichen Kaffeerunden“.'},
+ {stem:'Die Referentin empfiehlt, …', options:['nur noch in Gruppen zu lernen.','auf Lerngruppen ganz zu verzichten.','möglichst große Gruppen zu bilden.','Lerngruppen als Ergänzung zum eigenen Lernen zu nutzen.'], answer:3, why:'Das eigenständige Lernen soll nicht ersetzt, sondern durch die Gruppe ergänzt werden.'}
+ ]
+},
+{
+ id:'t7', type:'diff', name:'Laut- und Schriftbild abgleichen', items:4, prep:15, post:20,
+ intro:['Sie hören einen Text zum Thema „Kaffee und Konzentration“, den Sie gleichzeitig mitlesen. Hörtext und schriftlicher Text sind nicht identisch: Vier Wörter sind unterschiedlich.',
+ 'Klicken Sie beim Hören auf die vier Wörter, die nicht dem Hörtext entsprechen. Ein zweiter Klick löscht die Markierung wieder.'],
+ heading:'Kaffee und Konzentration',
+ written:'Viele Studierende trinken vor dem Lernen eine Tasse Kaffee, um wacher zu werden. Tatsächlich kann Koffein die Aufmerksamkeit für einige Stunden verbessern. Die Wirkung setzt allerdings erst nach etwa zwanzig Minuten ein. Wer regelmäßig große Mengen trinkt, gewöhnt sich außerdem an den Effekt und braucht immer mehr, um dieselbe Wirkung zu spüren. Fachleute raten deshalb, Kaffee gezielt einzusetzen und am Nachmittag darauf zu verzichten, damit der Schlaf nicht leidet.',
+ diffs:[{i:10, heard:'munterer'},{i:19, heard:'mehrere'},{i:29, heard:'dreißig'},{i:53, heard:'empfehlen'}]
+}
+];
+
+window.__TASKS = TASKS;
+
+/* ================= State ================= */
+var state = { mode:'exam', idx:-1, answers:[], pane:null, phase:'idle', phaseEnd:0, phaseTotal:0, timer:null,
+ listened:false, playing:false, modalOk:null, lastFocus:null, audioMode:'file', ttsBusy:false };
+var app = document.getElementById('app');
+var player = document.getElementById('player');
+var modal = document.getElementById('modal');
+var toastEl = document.getElementById('toast');
+var toastTimer = null;
+
+function sum(a){ return a.reduce(function(x,y){ return x+y; },0); }
+function fmt(s){ s=Math.max(0,Math.round(s)); var m=Math.floor(s/60), r=s%60; return m+':'+(r<10?'0':'')+r; }
+function durText(sec){ if (sec < 60) return sec+' Sekunden'; if (sec % 60 === 0) return (sec/60)+(sec===60?' Minute':' Minuten'); return fmt(sec)+' Minuten'; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function norm(s){ return String(s||'').toLowerCase().replace(/\s+/g,' ').trim(); }
+function matches(val, need){ var v=norm(val); if(!v) return false; return need.every(function(r){ return r.test(v); }); }
+function cur(){ return state.answers[state.idx]; }
+function T(){ return TASKS[state.idx]; }
+var TOTAL_ITEMS = sum(TASKS.map(function(t){ return t.items; }));
+
+function initAnswers(){
+ state.heard = [];
+ state.answers = TASKS.map(function(t){
+ switch(t.type){
+ case 'table': return t.blanks.map(function(){ return ''; });
+ case 'pair': return {f0:'',a0:'',f1:'',a1:''};
+ case 'summary': return {marks:t.sentences.map(function(){ return false; }), notes:''};
+ case 'persons': return t.statements.map(function(){ return null; });
+ case 'outline': return t.points.map(function(){ return ''; });
+ case 'mc': return t.questions.map(function(){ return null; });
+ case 'diff': return [];
+ }
+ });
+}
+
+/* ================= Audio ================= */
+var blobCache = {};
+function toBlobUrl(dataUrl){
+ if(dataUrl.indexOf('data:') !== 0) return dataUrl;
+ if(blobCache[dataUrl]) return blobCache[dataUrl];
+ var b64 = dataUrl.split(',')[1], bin = atob(b64), len = bin.length, bytes = new Uint8Array(len);
+ for (var i=0;i<len;i++) bytes[i] = bin.charCodeAt(i);
+ var url = URL.createObjectURL(new Blob([bytes], {type:'audio/mpeg'}));
+ blobCache[dataUrl] = url; return url;
+}
+function unlockAudio(){
+ try { player.src = SILENT; var p = player.play(); if (p && p.catch) p.catch(function(){}); player.pause(); } catch(e){}
+}
+function stopAudio(){
+ try { player.pause(); } catch(e){}
+ if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch(e){} }
+ state.playing = false; state.ttsBusy = false;
+}
+
+function playTrack(onEnd){
+ var t = T(), src = AUDIO[t.id].src;
+ stopAudio();
+ var tried = [];
+ function fail(){ // last resort: browser voice
+ state.audioMode = 'tts'; toast('Audiodatei nicht abspielbar. Browser-Stimme wird verwendet.');
+ speakFallback(TRANSCRIPTS[t.id], onEnd);
+ }
+ function attempt(kind){
+ tried.push(kind);
+ player.onended = function(){ state.playing=false; onEnd(); };
+ player.onerror = function(){
+ if (tried.indexOf('blob') === -1) attempt('blob'); else fail();
+ };
+ player.src = (kind === 'blob') ? toBlobUrl(src) : src;
+ player.currentTime = 0;
+ var p = player.play();
+ state.playing = true;
+ if (p && p.catch) p.catch(function(err){
+ if (err && err.name === 'NotAllowedError') { state.playing=false; showTapToPlay(); }
+ else if (tried.indexOf('blob') === -1) attempt('blob'); else fail();
+ });
+ }
+ attempt('data');
+}
+
+/* Fallback: improved Web Speech (only if the audio file cannot be played) */
+function pickVoices(){
+ var vs = (window.speechSynthesis && window.speechSynthesis.getVoices()) || [];
+ var de = vs.filter(function(v){ return /^de/i.test(v.lang); });
+ var score = function(v){ var n=v.name; return (/natural|neural|online/i.test(n)?4:0)+(/google/i.test(n)?2:0)+(/premium|enhanced/i.test(n)?3:0); };
+ de.sort(function(a,b){ return score(b)-score(a); });
+ var fem = de.filter(function(v){ return /katja|anna|petra|marlene|vicki|helena|hedda|amala|seraphina|louisa|elke|female|frau/i.test(v.name); });
+ var mal = de.filter(function(v){ return /conrad|markus|yannick|stefan|hans|killian|florian|ralf|male|mann/i.test(v.name); });
+ return { f: fem[0]||de[0]||null, m: mal[0]||de[1]||de[0]||null };
+}
+function speakFallback(lines, onEnd){
+ if (!window.speechSynthesis) { onEnd(); return; }
+ var voices = pickVoices(), queue = [];
+ lines.forEach(function(l){ (l.text.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[l.text]).forEach(function(s){ queue.push({g:l.g, s:s.trim()}); }); });
+ state.ttsBusy = true; state.playing = true;
+ var i = 0;
+ (function next(){
+ if (!state.ttsBusy) return;
+ if (i >= queue.length) { state.playing=false; state.ttsBusy=false; onEnd(); return; }
+ var q = queue[i++], u = new SpeechSynthesisUtterance(q.s);
+ u.lang = 'de-DE'; u.rate = 0.98; var v = q.g==='m'?voices.m:voices.f; if (v) u.voice = v;
+ if (!v || voices.m === voices.f) u.pitch = q.g==='m'?0.85:1.12;
+ u.onend = next; u.onerror = next;
+ window.speechSynthesis.speak(u);
+ })();
+}
+
+/* ================= Rendering ================= */
+function topbar(){
+ var segs = TASKS.map(function(x,i){
+ return '<span class="seg'+(i<state.idx?' done':'')+'"><span class="fill"'+(i===state.idx?' id="curfill"':'')+'></span></span>';
+ }).join('');
+ return '<header class="topbar"><div class="wrap topbar-in">'+
+ '<div class="tb-left"><strong>Hören</strong><span class="tb-sep" aria-hidden="true"></span><span>Aufgabe '+(state.idx+1)+' von '+TASKS.length+'</span></div>'+
+ '<div class="tb-right"><span class="phase" id="phase"></span><span class="clock" id="clock" role="timer"></span>'+
+ '<button type="button" class="btn ghost small" data-act="quit">Beenden</button></div>'+
+ '</div><div class="wrap"><div class="track" aria-hidden="true">'+segs+'</div></div></header>';
+}
+
+function playerHTML(){
+ var practice = state.mode === 'practice';
+ return '<div class="player" id="player-ui">'+
+ '<button type="button" class="pl-btn" id="pl-btn" data-act="play"'+(practice?'':' disabled')+'>'+
+ '<svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M2 1.5v13l11-6.5z" fill="currentColor"/></svg>'+
+ '<span id="pl-label">'+(practice?'Abspielen':'Startet automatisch')+'</span></button>'+
+ '<div class="pl-main"><p class="pl-status" id="pl-status">'+(practice?'Bereit.':'Lesen Sie zuerst die Aufgabe.')+'</p>'+
+ '<div class="pl-bar"><div class="pl-fill" id="pl-fill"></div></div>'+
+ '<div class="pl-time"><span id="pl-cur">0:00</span><span id="pl-dur">'+fmt(AUDIO[T().id].dur)+'</span></div></div></div>';
+}
+
+function instrHTML(t){
+ return '<div class="instr">'+t.intro.map(function(s){ return '<p>'+s+'</p>'; }).join('')+
+ (t.note?'<p><em>'+t.note+'</em></p>':'')+'</div>';
+}
+
+function bodyHTML(t, a){
+ switch(t.type){
+ case 'table': {
+ var b = function(i){ return '<span class="fill-n" aria-hidden="true">'+(i+1)+'</span><input class="fill-in" type="text" maxlength="40" autocomplete="off" spellcheck="false" data-act="blank" data-i="'+i+'" aria-label="Lücke '+(i+1)+'" value="'+esc(a[i])+'">'; };
+ return '<div class="sheet tbl-wrap"><table class="ov"><caption>'+t.caption+'</caption>'+
+ t.tableHTML.replace(/\{b(\d)\}/g, function(_, n){ return b(+n); })+'</table></div>';
+ }
+ case 'pair': {
+ var col = function(p, k){
+ return '<div class="pair-col"><h3>'+p.name+'</h3>'+
+ '<label for="pf'+k+'">Forderung</label><textarea id="pf'+k+'" data-act="pair" data-key="f'+k+'" rows="2">'+esc(a['f'+k])+'</textarea>'+
+ '<label for="pa'+k+'">Argument</label><textarea id="pa'+k+'" data-act="pair" data-key="a'+k+'" rows="2">'+esc(a['a'+k])+'</textarea></div>';
+ };
+ return '<div class="sheet"><div class="pair-grid">'+t.persons.map(col).join('')+'</div></div>';
+ }
+ case 'summary': {
+ return '<div class="sheet"><label for="notes" class="col-h">Ihre Notizen (werden nicht bewertet)</label>'+
+ '<textarea class="notes" id="notes" data-act="notes">'+esc(a.notes)+'</textarea>'+
+ '<div id="sum-area">'+summaryArea(t, a)+'</div></div>';
+ }
+ case 'persons': {
+ return '<div class="sheet">'+t.statements.map(function(s,i){
+ return '<div class="grow" role="radiogroup" aria-labelledby="ps-'+i+'"><p class="g-stem" id="ps-'+i+'"><span class="q-n">'+(i+1)+'</span><span>'+s.text+'</span></p><div class="g-cells">'+
+ t.cats.map(function(c,k){ return '<label class="g-cell"><input type="radio" name="pers-'+i+'" value="'+k+'" data-act="pers" data-i="'+i+'"'+(a[i]===k?' checked':'')+'><span class="bubble" aria-hidden="true"></span><span class="g-lab">'+c+'</span></label>'; }).join('')+
+ '</div></div>';
+ }).join('')+'</div>';
+ }
+ case 'outline': {
+ return '<div class="sheet"><div class="outline">'+t.points.map(function(p,i){
+ return '<div class="ol-row"><label class="ol-label" for="ol'+i+'">'+p.label+'</label><input class="fill-in" id="ol'+i+'" type="text" maxlength="120" autocomplete="off" data-act="outline" data-i="'+i+'" value="'+esc(a[i])+'"></div>';
+ }).join('')+'</div></div>';
+ }
+ case 'mc': {
+ return '<div class="sheet">'+t.questions.map(function(q,i){
+ return '<div class="q" role="radiogroup" aria-labelledby="mq-'+i+'"><p class="q-stem" id="mq-'+i+'"><span class="q-n">'+(i+1)+'</span><span>'+q.stem+'</span></p>'+
+ q.options.map(function(o,j){ return '<label class="opt"><input type="radio" name="mc-'+i+'" value="'+j+'" data-act="mc" data-i="'+i+'"'+(a[i]===j?' checked':'')+'><span class="bubble" aria-hidden="true"></span><span>'+o+'</span></label>'; }).join('')+'</div>';
+ }).join('')+'</div>';
+ }
+ case 'diff': {
+ var words = t.written.split(/\s+/);
+ return '<div class="sheet"><h3 class="col-h"><span>'+t.heading+'</span><span class="count" id="diff-count">'+a.length+' von 4 markiert</span></h3><p class="read-along">'+
+ words.map(function(w,i){ return '<span class="w'+(a.indexOf(i)>-1?' on':'')+'" role="button" tabindex="0" aria-pressed="'+(a.indexOf(i)>-1)+'" data-act="word" data-i="'+i+'">'+w+'</span>'; }).join(' ')+
+ '</p></div>';
+ }
+ }
+ return '';
+}
+
+function summaryArea(t, a){
+ if (!state.heard[state.idx]) return '<p class="hidden-note">Die Zusammenfassung erscheint nach dem Hörtext.</p>';
+ var n = a.marks.filter(Boolean).length;
+ return '<h3 class="col-h"><span>Zusammenfassung</span><span class="count" id="sum-count">'+n+' von 2 markiert</span></h3><p class="summary">'+
+ t.sentences.map(function(s,i){ return '<span class="sent'+(a.marks[i]?' on':'')+'" role="button" tabindex="0" aria-pressed="'+a.marks[i]+'" data-act="sent" data-i="'+i+'">'+s.text+'</span>'; }).join(' ')+'</p>';
+}
+
+function navHTML(){
+ var last = state.idx === TASKS.length-1;
+ if (state.mode === 'exam') return '<nav class="task-nav"><span class="nav-note">Nach Ablauf der Zeit geht es automatisch weiter.</span>'+
+ '<button type="button" class="btn primary" data-act="next">'+(last?'Test beenden':'Weiter zu Aufgabe '+(state.idx+2))+'</button></nav>';
+ return '<nav class="task-nav">'+(state.idx>0?'<button type="button" class="btn ghost" data-act="prev">Zurück</button>':'<span></span>')+
+ '<button type="button" class="btn primary" data-act="next">'+(last?'Test auswerten':'Weiter zu Aufgabe '+(state.idx+2))+'</button></nav>';
+}
+
+function renderTask(){
+ var t = T();
+ app.innerHTML = topbar()+'<main class="wrap task"><h1 class="task-title">Aufgabe '+(state.idx+1)+': '+t.name+'</h1>'+
+ instrHTML(t)+playerHTML()+bodyHTML(t, cur())+navHTML()+'</main>';
+}
+
+/* ================= Phases ================= */
+function stopTimer(){ if (state.timer) { clearInterval(state.timer); state.timer = null; } }
+function setPhase(name, seconds){
+ state.phase = name; stopTimer();
+ if (seconds != null) {
+ state.phaseTotal = seconds; state.phaseEnd = Date.now() + seconds*1000;
+ state.timer = setInterval(tick, 250); tick();
+ } else paintClock();
+}
+function tick(){
+ var left = (state.phaseEnd - Date.now())/1000;
+ paintClock(left);
+ if (left <= 0) { stopTimer(); if (state.phase === 'prep') startListening(); else if (state.phase === 'post') autoNext(); }
+}
+function paintClock(left){
+ var ph = document.getElementById('phase'), cl = document.getElementById('clock'), f = document.getElementById('curfill');
+ var label = {prep:'Vorbereitung', listen:'Hörtext', post:'Bearbeitung', idle:''}[state.phase] || '';
+ if (ph) ph.textContent = state.mode==='practice' ? 'Übungsmodus' : label;
+ if (state.phase === 'listen') {
+ var d = player.duration && isFinite(player.duration) ? player.duration : AUDIO[T().id].dur;
+ left = state.audioMode==='file' ? d - player.currentTime : null;
+ }
+ if (cl) { cl.textContent = (left==null || state.mode==='practice') ? '' : fmt(left); cl.classList.toggle('warn', state.phase==='post' && left!=null && left<=30); }
+ if (f && state.mode === 'exam') {
+ var t = T(), d2 = AUDIO[t.id].dur, whole = t.prep + d2 + t.post, done = 0;
+ if (state.phase === 'prep') done = t.prep - Math.max(0, left);
+ else if (state.phase === 'listen') done = t.prep + (state.audioMode==='file' ? player.currentTime : d2/2);
+ else if (state.phase === 'post') done = t.prep + d2 + (t.post - Math.max(0, left));
+ f.style.width = Math.min(100, done/whole*100)+'%';
+ }
+}
+
+function startTaskFlow(){
+ var t = T();
+ if (state.mode === 'exam') {
+ if (t.prep > 0) { setPhase('prep', t.prep); setStatus('Lesen Sie die Aufgabe. Der Hörtext startet in '+t.prep+' Sekunden.'); }
+ else startListening();
+ } else { setPhase('idle', null); }
+}
+function setStatus(msg, live){ var s=document.getElementById('pl-status'); if(s){ s.innerHTML = msg; s.classList.toggle('live', !!live); } }
+function showTapToPlay(){
+ var b = document.getElementById('pl-btn'), l = document.getElementById('pl-label');
+ if (b) { b.disabled = false; b.setAttribute('data-act','play'); }
+ if (l) l.textContent = 'Abspielen';
+ setStatus('Ihr Browser hat das automatische Abspielen blockiert. Bitte tippen Sie auf „Abspielen“.');
+}
+var progTimer = null;
+function startListening(){
+ var b = document.getElementById('pl-btn'), l = document.getElementById('pl-label');
+ if (b) b.disabled = true; if (l) l.textContent = 'Läuft';
+ state.phase = 'listen'; stopTimer();
+ setStatus('<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span> Hörtext läuft. Sie hören den Text einmal.', true);
+ clearInterval(progTimer);
+ progTimer = setInterval(function(){
+ var d = player.duration && isFinite(player.duration) ? player.duration : AUDIO[T().id].dur;
+ var c = state.audioMode==='file' ? player.currentTime : 0;
+ var fill = document.getElementById('pl-fill'), cur = document.getElementById('pl-cur');
+ if (fill) fill.style.width = Math.min(100, c/d*100)+'%';
+ if (cur) cur.textContent = fmt(c);
+ paintClock();
+ }, 250);
+ playTrack(onListenEnd);
+}
+function onListenEnd(){
+ clearInterval(progTimer);
+ state.listened = true; state.heard[state.idx] = true;
+ var fill = document.getElementById('pl-fill'); if (fill) fill.style.width = '100%';
+ var t = T();
+ if (t.type === 'summary') { var area = document.getElementById('sum-area'); if (area) area.innerHTML = summaryArea(t, cur()); }
+ if (state.mode === 'exam') {
+ setPhase('post', t.post);
+ setStatus('Der Hörtext ist zu Ende. Sie haben jetzt '+durText(t.post)+' Zeit, um Ihre Antworten zu bearbeiten.');
+ var l = document.getElementById('pl-label'); if (l) l.textContent = 'Beendet';
+ } else {
+ setPhase('idle', null);
+ var b = document.getElementById('pl-btn'), l2 = document.getElementById('pl-label');
+ if (b) b.disabled = false; if (l2) l2.textContent = 'Noch einmal hören';
+ setStatus('Der Hörtext ist zu Ende. Im Übungsmodus können Sie ihn noch einmal hören.');
+ }
+}
+function autoNext(){
+ if (state.idx === TASKS.length-1) { finish(); toast('Die Zeit ist abgelaufen. Hier ist Ihr Ergebnis.'); }
+ else { var n = state.idx+1; goTo(n); toast('Weiter mit Aufgabe '+(n+1)+'.'); }
+}
+
+function goTo(i){
+ stopTimer(); clearInterval(progTimer); stopAudio(); closeModal(true);
+ state.idx = i; state.listened = !!state.heard[i]; renderTask(); window.scrollTo(0,0); startTaskFlow();
+}
+
+/* ================= Scoring ================= */
+function scoreTask(t, a){
+ switch(t.type){
+ case 'table': return t.blanks.filter(function(b,i){ return matches(a[i], b.need); }).length;
+ case 'pair': return t.persons.reduce(function(s,p,k){ return s + (matches(a['f'+k], p.f.need)?1:0) + (matches(a['a'+k], p.a.need)?1:0); }, 0);
+ case 'summary': return t.sentences.filter(function(s,i){ return s.wrong && a.marks[i]; }).length;
+ case 'persons': return t.statements.filter(function(s,i){ return a[i]===s.answer; }).length;
+ case 'outline': return t.points.filter(function(p,i){ return matches(a[i], p.need); }).length;
+ case 'mc': return t.questions.filter(function(q,i){ return a[i]===q.answer; }).length;
+ case 'diff': return t.diffs.filter(function(d){ return a.indexOf(d.i) > -1; }).length;
+ }
+ return 0;
+}
+function rv(ok, label, lines, expl){
+ return '<div class="rv '+(ok?'ok':'bad')+'"><span class="rv-mark" aria-hidden="true">'+(ok?'✓':'✗')+'</span><div class="rv-body">'+
+ '<p class="rv-label"><span class="sr">'+(ok?'Richtig: ':'Falsch: ')+'</span>'+label+'</p>'+lines.map(function(l){ return '<p>'+l+'</p>'; }).join('')+
+ (expl?'<p class="rv-expl">'+expl+'</p>':'')+'</div></div>';
+}
+function yours(v){ return v && String(v).trim() ? '<strong>'+esc(v)+'</strong>' : '<em>keine Antwort</em>'; }
+function reviewHTML(t, a){
+ switch(t.type){
+ case 'table': return '<p class="rv-note">Automatisch geprüft über Schlüsselwörter. Antworten mit derselben Bedeutung sind auch richtig.</p>'+
+ t.blanks.map(function(b,i){ return rv(matches(a[i], b.need), 'Lücke '+(i+1), ['Ihre Antwort: '+yours(a[i]), 'Lösung: <strong>'+b.answer+'</strong>'], t.why[i]); }).join('');
+ case 'pair': return '<p class="rv-note">Automatisch geprüft über Schlüsselwörter. Vergleichen Sie Ihre Notizen trotzdem mit der Musterlösung.</p>'+
+ t.persons.map(function(p,k){
+ return rv(matches(a['f'+k], p.f.need), p.name+': Forderung', ['Ihre Antwort: '+yours(a['f'+k]), 'Musterlösung: <strong>'+p.f.answer+'</strong>'])+
+ rv(matches(a['a'+k], p.a.need), p.name+': Argument', ['Ihre Antwort: '+yours(a['a'+k]), 'Musterlösung: <strong>'+p.a.answer+'</strong>']);
+ }).join('');
+ case 'summary': return '<p class="rv-note">Punkte gibt es für jeden der zwei falschen Sätze, den Sie markiert haben.</p>'+
+ t.sentences.map(function(s,i){ var ok = s.wrong ? a.marks[i] : !a.marks[i];
+ return rv(ok, '„'+s.text+'“', ['Inhaltlich <strong>'+(s.wrong?'falsch':'richtig')+'</strong>. '+(a.marks[i]?'Sie haben den Satz markiert.':'Sie haben den Satz nicht markiert.')], s.why); }).join('');
+ case 'persons': return t.statements.map(function(s,i){
+ return rv(a[i]===s.answer, (i+1)+'. '+s.text, ['Ihre Antwort: '+(a[i]==null?'<em>keine Antwort</em>':'<strong>'+t.cats[a[i]]+'</strong>')].concat(a[i]===s.answer?[]:['Richtig: <strong>'+t.cats[s.answer]+'</strong>']), s.why); }).join('');
+ case 'outline': return '<p class="rv-note">Automatisch geprüft über Schlüsselwörter. Antworten mit derselben Bedeutung sind auch richtig.</p>'+
+ t.points.map(function(p,i){ return rv(matches(a[i], p.need), p.label, ['Ihre Antwort: '+yours(a[i]), 'Musterlösung: <strong>'+p.answer+'</strong>']); }).join('');
+ case 'mc': return t.questions.map(function(q,i){
+ return rv(a[i]===q.answer, 'Frage '+(i+1)+': '+q.stem, ['Ihre Antwort: '+(a[i]==null?'<em>keine Antwort</em>':'<strong>'+q.options[a[i]]+'</strong>')].concat(a[i]===q.answer?[]:['Richtig: <strong>'+q.options[q.answer]+'</strong>']), q.why); }).join('');
+ case 'diff': {
+ var words = t.written.split(/\s+/);
+ var out = t.diffs.map(function(d){ var ok = a.indexOf(d.i) > -1;
+ return rv(ok, 'Geschrieben: „'+words[d.i].replace(/[.,:]$/,'')+'“', ['Gehört: <strong>'+d.heard+'</strong>', ok?'Sie haben das Wort markiert.':'Sie haben das Wort nicht markiert.']); }).join('');
+ var wrong = a.filter(function(i){ return !t.diffs.some(function(d){ return d.i===i; }); });
+ if (wrong.length) out += '<p class="rv-note">Zusätzlich markiert, aber identisch mit dem Hörtext: '+wrong.map(function(i){ return '„'+words[i].replace(/[.,:]$/,'')+'“'; }).join(', ')+'</p>';
+ return out;
+ }
+ }
+ return '';
+}
+function transcriptHTML(t){
+ var lines = TRANSCRIPTS[t.id];
+ return '<details class="tr"><summary>Transkript anzeigen</summary>'+lines.map(function(l){
+ return '<p>'+(lines.length>1 && lines.some(function(x){ return x.s!==lines[0].s; }) ? '<b>'+l.s+':</b> ' : '')+esc(l.text)+'</p>';
+ }).join('')+'</details>';
+}
+
+function finish(){
+ stopTimer(); clearInterval(progTimer); stopAudio(); closeModal(true);
+ var scores = TASKS.map(function(t,i){ return scoreTask(t, state.answers[i]); });
+ var total = sum(scores), pct = Math.round(total/TOTAL_ITEMS*100);
+ var rows = TASKS.map(function(t,i){
+ return '<li class="plan-row"><span class="plan-n">'+(i+1)+'</span><span class="plan-name">'+t.name+'</span><span class="plan-meta"><strong>'+scores[i]+'</strong> von '+t.items+'</span>'+
+ '<span class="plan-bar" aria-hidden="true"><span style="width:'+(scores[i]/t.items*100)+'%"></span></span></li>';
+ }).join('');
+ var reviews = TASKS.map(function(t,i){
+ return '<details class="review"'+(i===0?' open':'')+'><summary><span class="chev" aria-hidden="true">›</span><span class="rv-title">Aufgabe '+(i+1)+': '+t.name+'</span><span class="rv-score">'+scores[i]+' von '+t.items+'</span></summary>'+
+ reviewHTML(t, state.answers[i])+transcriptHTML(t)+'</details>';
+ }).join('');
+ state.idx = -1;
+ app.innerHTML = '<main class="wrap results"><header class="res-head"><h1>Ihr Ergebnis</h1>'+
+ '<p class="res-score"><span class="res-num">'+total+'</span><span>von '+TOTAL_ITEMS+' Punkten, das sind '+pct+' %.</span></p>'+
+ '<p class="fine">Freitext-Antworten (Aufgaben 1, 2 und 5) werden über Schlüsselwörter geprüft; bitte vergleichen Sie sie zusätzlich mit den Musterlösungen. Das Ergebnis dient nur zur Orientierung, die offiziellen TDN-Stufen berechnet das TestDaF-Institut nach einem eigenen Verfahren.</p></header>'+
+ '<h2>Punkte pro Aufgabe</h2><ol class="plan-list">'+rows+'</ol><h2>Lösungen, Erklärungen und Transkripte</h2>'+reviews+
+ '<div style="margin-top:32px"><button type="button" class="btn primary" data-act="restart">Zur Startseite</button></div></main>';
+ window.scrollTo(0,0);
+}
+
+/* ================= Start ================= */
+function renderStart(){
+ var rows = TASKS.map(function(t,i){
+ return '<li class="plan-row"><span class="plan-n">'+(i+1)+'</span><span class="plan-name">'+t.name+'</span><span class="plan-meta">'+t.items+' Items, Hörtext '+fmt(AUDIO[t.id].dur)+'</span></li>';
+ }).join('');
+ app.innerHTML = '<main class="wrap start"><header><h1>Modelltest Hören '+TEST_NO+'</h1>'+
+ '<p class="lede">Eine vollständige Übungsprüfung im Format des digitalen TestDaF: 7&nbsp;Aufgaben mit '+TOTAL_ITEMS+'&nbsp;Items. Sie hören jeden Text einmal.</p></header>'+
+ '<div class="note"><strong>Bitte Ton einschalten.</strong>Die Hörtexte wurden mit neuronalen Stimmen erzeugt: verständlich und natürlicher als eine Browser-Stimme, aber nicht ganz wie echte Sprecher. Kopfhörer helfen.</div>'+
+ '<section aria-labelledby="plan-h"><h2 id="plan-h">Ablauf</h2><ol class="plan-list">'+rows+'</ol></section>'+
+ '<section class="mode" aria-labelledby="mode-h"><h2 id="mode-h">Modus</h2>'+
+ '<label class="mode-opt"><input type="radio" name="mode" value="exam"'+(state.mode==='exam'?' checked':'')+'><span class="bubble" aria-hidden="true"></span><span><strong>Prüfungsmodus</strong><small>Wie in der Prüfung: Lesezeit, der Hörtext startet automatisch und läuft einmal, danach feste Bearbeitungszeit.</small></span></label>'+
+ '<label class="mode-opt"><input type="radio" name="mode" value="practice"'+(state.mode==='practice'?' checked':'')+'><span class="bubble" aria-hidden="true"></span><span><strong>Übungsmodus</strong><small>Ohne Zeitlimit. Sie starten den Hörtext selbst und können ihn wiederholen.</small></span></label>'+
+ '</section><button type="button" class="btn primary" data-act="start">Test starten</button>'+
+ '<p class="fine">Alle Hörtexte wurden für diese Übung neu geschrieben; Studien und Zahlen sind teilweise erfunden. In der echten Prüfung sind die Aufgaben 4 und 5 Videos. Das offizielle Format zeigt die Demo-Version auf <a href="https://www.testdaf.de" target="_blank" rel="noopener">testdaf.de</a>.</p></main>';
+}
+
+/* ================= Modal / toast ================= */
+function openModal(h,p,ok,fn){
+ document.getElementById('modal-h').textContent=h; document.getElementById('modal-p').textContent=p;
+ var b=document.getElementById('modal-ok'); b.textContent=ok; state.modalOk=fn; state.lastFocus=document.activeElement; modal.hidden=false; b.focus();
+}
+function closeModal(skip){ if(modal.hidden) return; modal.hidden=true; state.modalOk=null; if(!skip&&state.lastFocus&&document.body.contains(state.lastFocus)) state.lastFocus.focus(); }
+function toast(m){ toastEl.textContent=m; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(function(){ toastEl.classList.remove('show'); },3400); }
+
+/* ================= Events ================= */
+document.addEventListener('click', function(e){
+ if (e.target === modal) { closeModal(); return; }
+ var el = e.target.closest ? e.target.closest('[data-act]') : null; if (!el) return;
+ var act = el.getAttribute('data-act');
+ switch(act){
+ case 'start': {
+ var m = app.querySelector('input[name="mode"]:checked'); state.mode = m ? m.value : 'exam';
+ unlockAudio(); initAnswers(); state.audioMode = 'file';
+ if (window.speechSynthesis) try { window.speechSynthesis.getVoices(); } catch(e){}
+ goTo(0); break;
+ }
+ case 'play': {
+ if (state.playing) return;
+ if (state.mode === 'exam' && state.listened) return;
+ startListening(); break;
+ }
+ case 'next': {
+ var last = state.idx === TASKS.length-1;
+ if (state.mode === 'practice') { if (last) openModal('Test auswerten?','Danach sehen Sie Ihr Ergebnis mit Lösungen und Transkripten.','Auswerten',finish); else goTo(state.idx+1); return; }
+ openModal(last?'Test beenden?':'Weiter zu Aufgabe '+(state.idx+2)+'?', (state.phase==='post'?'':'Die Bearbeitungszeit läuft noch. ')+'Wie in der Prüfung können Sie danach nicht zurück.', last?'Test beenden':'Weiter', function(){ if (last) finish(); else goTo(state.idx+1); });
+ break;
+ }
+ case 'prev': goTo(state.idx-1); break;
+ case 'quit': openModal('Test beenden?','Nicht bearbeitete Items werden mit 0 Punkten gewertet.','Test beenden',finish); break;
+ case 'restart': state.idx=-1; renderStart(); window.scrollTo(0,0); break;
+ case 'sent': toggleSent(+el.getAttribute('data-i'), el); break;
+ case 'word': toggleWord(+el.getAttribute('data-i'), el); break;
+ case 'modal-ok': { var fn = state.modalOk; closeModal(true); if (fn) fn(); break; }
+ case 'modal-cancel': closeModal(); break;
+ }
+});
+function toggleSent(i, el){
+ var a = cur(); if (!a.marks[i] && a.marks.filter(Boolean).length >= 2) { toast('Es sind genau zwei Sätze falsch. Heben Sie zuerst eine Markierung auf.'); return; }
+ a.marks[i] = !a.marks[i]; el.classList.toggle('on', a.marks[i]); el.setAttribute('aria-pressed', String(a.marks[i]));
+ var c = document.getElementById('sum-count'); if (c) c.textContent = a.marks.filter(Boolean).length+' von 2 markiert';
+}
+function toggleWord(i, el){
+ var a = cur(), k = a.indexOf(i);
+ if (k > -1) a.splice(k,1); else { if (a.length >= 4) { toast('Es sind genau vier Wörter anders. Heben Sie zuerst eine Markierung auf.'); return; } a.push(i); }
+ el.classList.toggle('on', k === -1); el.setAttribute('aria-pressed', String(k === -1));
+ var c = document.getElementById('diff-count'); if (c) c.textContent = a.length+' von 4 markiert';
+}
+document.addEventListener('input', function(e){
+ var el = e.target, act = el.getAttribute && el.getAttribute('data-act'); if (!act || state.idx < 0) return;
+ var a = cur();
+ if (act === 'blank' || act === 'outline') a[+el.getAttribute('data-i')] = el.value;
+ else if (act === 'pair') a[el.getAttribute('data-key')] = el.value;
+ else if (act === 'notes') a.notes = el.value;
+});
+document.addEventListener('change', function(e){
+ var el = e.target, act = el.getAttribute && el.getAttribute('data-act'); if (!act || state.idx < 0) return;
+ var a = cur();
+ if (act === 'pers' || act === 'mc') a[+el.getAttribute('data-i')] = +el.value;
+});
+document.addEventListener('keydown', function(e){
+ if (e.key === 'Escape' && !modal.hidden) { closeModal(); return; }
+ var s = e.target.closest ? e.target.closest('.sent,.w') : null;
+ if (s && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); s.click(); }
+});
+
+renderStart();
+})();
+</script>
+<script>
+(function () {
+ var KEY = 'testdaf:hoeren:2', saved = false;
+ function check() {
+ var el = document.querySelector('.res-num');
+ if (!el) { saved = false; return; }
+ if (saved) return;
+ var score = parseInt(el.textContent, 10), sib = el.nextElementSibling;
+ var m = sib && sib.textContent.match(/von\s+(\d+)/);
+ if (isNaN(score) || !m) return;
+ saved = true;
+ try {
+ var prev = JSON.parse(localStorage.getItem(KEY) || 'null') || {};
+ localStorage.setItem(KEY, JSON.stringify({
+ last: score, max: +m[1], best: Math.max(score, prev.best || 0),
+ runs: (prev.runs || 0) + 1, at: Date.now()
+ }));
+ } catch (e) {}
+ }
+ var app = document.getElementById('app');
+ if (app && window.MutationObserver) new MutationObserver(check).observe(app, { childList: true, subtree: true });
+ document.addEventListener('click', function (e) {
+ var a = e.target.closest && e.target.closest('a[data-site-back]');
+ if (!a) return;
+ if (document.querySelector('.topbar') && !document.querySelector('.res-num') &&
+ !window.confirm('Den Test wirklich verlassen? Ihre Antworten gehen dabei verloren.')) e.preventDefault();
+ });
+})();
+</script>
+</body>
+</html>
